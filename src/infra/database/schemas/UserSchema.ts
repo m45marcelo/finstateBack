@@ -37,15 +37,10 @@ const userSchema = new Schema<User>(
                 delete (ret as any).__v;
                 delete (ret as any).password;
 
-                return {
-                    ret,
-                };
+                return ret
             },
         },
     }
 );
-
-// Índices para performance
-userSchema.index({ email: 1 });
 
 export const UserModel = model<User>("User", userSchema);
