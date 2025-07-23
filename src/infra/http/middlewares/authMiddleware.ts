@@ -25,7 +25,6 @@ export function autMiddleware(
     next: NextFunction
 ): void {
     const authHeader = request.headers.authorization
-
     if(!authHeader) {
         throw new UnauthorizedError('Token de acesso é obrigatório');
     }

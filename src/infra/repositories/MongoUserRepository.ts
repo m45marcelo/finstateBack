@@ -1,6 +1,6 @@
 import { UserRepository } from "../../application/repositories/UserRepository";
 import { CreatedUserData, UpdateUserData, User } from "../../core/entities/User";
-import { UserModel } from "../database/schemas/UserSchema";
+import { UserModel } from "../database/model/UserModel";
 
 export class MongoUserRepository implements UserRepository {
     async create(data: CreatedUserData): Promise<User> {
@@ -12,13 +12,21 @@ export class MongoUserRepository implements UserRepository {
         return user.toJSON()
     }
 
+    async getAll(): Promise<User[]> {
+        const users = await UserModel.find();
+        
+        return users;
+    }
+
     async findById(id: string): Promise<User | null> {
         const user = await UserModel.findById(id);
+
         return user ? user.toJSON() : null;
     }
 
     async findByEmail(email: string): Promise<User | null> {
         const user = await UserModel.findOne({ email });
+        
         return user ? user.toJSON() : null;
     }
 

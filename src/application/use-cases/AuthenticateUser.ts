@@ -15,7 +15,7 @@ interface AuthenticateUserResponse {
     token: string;
 }
 
-export  class AuthenticateUserUseCase {
+export class AuthenticateUserUseCase {
     constructor(private userRepository: UserRepository) {}
 
     async execute({email, password}: AuthenticateUserRequest): Promise<AuthenticateUserResponse> {

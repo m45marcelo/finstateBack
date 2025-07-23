@@ -35,7 +35,6 @@ const userSchema = new Schema<User>(
 
                 delete (ret as any)._id;
                 delete (ret as any).__v;
-                delete (ret as any).password;
 
                 return ret
             },
