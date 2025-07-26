@@ -1,6 +1,6 @@
 import { UserRepository } from "../../application/repositories/UserRepository";
 import { CreatedUserData, UpdateUserData, User } from "../../core/entities/User";
-import { UserModel } from "../database/model/UserModel";
+import { UserModel } from "../database/models/UserModel";
 
 export class MongoUserRepository implements UserRepository {
     async create(data: CreatedUserData): Promise<User> {
@@ -9,7 +9,7 @@ export class MongoUserRepository implements UserRepository {
         createdAt: new Date()
         })
 
-        return user.toJSON()
+        return user.toJSON();
     }
 
     async getAll(): Promise<User[]> {

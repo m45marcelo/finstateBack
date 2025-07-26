@@ -1,7 +1,7 @@
-import { CreateExpenseData, Expense, ExpenseCategory } from "../../core/entities/Expense";
-import { NotFoundError, ValidationError } from "../../shared/errors";
-import { ExpenseRepository } from "../repositories/ExpenseRepository";
-import { UserRepository } from "../repositories/UserRepository";
+import { CreateExpenseData, Expense, ExpenseCategory } from "../../../core/entities/Expense";
+import { NotFoundError, ValidationError } from "../../../shared/errors";
+import { ExpenseRepository } from "../../repositories/ExpenseRepository";
+import { UserRepository } from "../../repositories/UserRepository";
 
 interface CreateExpenseRequest {
     idUser: string;

@@ -1,30 +1,38 @@
-import express, { Express } from 'express';
 import { connectToDatabase } from './infra/database/connection';
-import { userRoutes } from './infra/http/routes/userRoutes';
-import { errorMiddleware } from './infra/http/middlewares/errorMiddleware';
+import { app } from './app';
+import { env } from './infra/env';
 
 
 async function startServer() {
-    await connectToDatabase();
+    try{
+        await connectToDatabase();
 
-    const app: Express = express();
-    const PORT = 3000;
+        const server = app.listen(env.PORT, () => {
+            console.log(`🟢 Servidor Rodando na porta ${env.PORT}`);
+            console.log(`📄 Documentação: http://localhost:${env.PORT}/api`);
+            console.log(`🌎 Ambiente: ${env.NODE_ENV}`);
+        });
 
-    app.use(express.json());
+        const gracefulShutdown = (signal: string) => {
+            console.log(`\n📴 Recebendo sinal ${signal}. Encerrando servidor...`);
 
-    app.get('/', (req, res) => {
-        res.send('API Ok');
-    });
+            server.close(() => {
+                console.log('✅ Servidor encerrado com sucesso');
+                process.exit(0)
+            })
 
-    
+            setTimeout(() => {
+                console.log('❌ Forçando encerramento do servidor');
+                process.exit(1);
+            }, 10000)
+        }
 
-    app.use('/', userRoutes);
-
-    app.use(errorMiddleware);
-    
-    app.listen(PORT, () => {
-        console.log(`🟢 Servidor Rodando na porta ${PORT}`);
-    })
+        process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
+        process.on('SIGINT', () => gracefulShutdown('SIGINT'));
+    } catch (error) {
+        console.error('❌ Erro ao iniciar servidor:', error);
+        process.exit(1)
+    }
 }
 
 startServer();
