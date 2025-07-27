@@ -4,7 +4,7 @@ import { MongoExpenseRepository } from '../../repositories/MongoExpenseRepositor
 import { CreateExpenseUseCase } from '../../../application/use-cases/Expense/CreateExpense';
 import { MongoUserRepository } from '../../repositories/MongoUserRepository';
 import { ExpenseCategory } from '../../../core/entities/Expense';
-import { GetAllUsersUseCase } from '../../../application/use-cases/User/GetAllUsers';
+import { GetAllExpensesUseCase } from '../../../application/use-cases/Expense/GetAllExpenses';
 
 export class ExpenseController {
     async createExpense(
@@ -33,12 +33,19 @@ export class ExpenseController {
     }
 
     async getAllExpenses(request: Request, response: Response): Promise<Response> {
-        const { category, startDate, endDate } = getAllExpensesSchema.parse(request.body);
+        const { category, startDate, endDate } = getAllExpensesSchema.parse(request.query);
+        console.log(category, startDate, endDate)
+        const idUser = request.user.id;
 
-        const userRepository = new MongoUserRepository();
-        const getAllUsersUseCase = new GetAllUsersUseCase(userRepository);
+        const expenseRepository = new MongoExpenseRepository();
+        const getAllExpensesUseCase = new GetAllExpensesUseCase(expenseRepository);
 
-        const result = await getAllUsersUseCase.execute();
+        const result = await getAllExpensesUseCase.execute({
+            idUser,
+            category,
+            startDate,
+            endDate
+        });
 
         return response.json(result);
     }

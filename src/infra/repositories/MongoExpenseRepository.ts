@@ -33,11 +33,15 @@ export class MongoExpenseRepository implements ExpenseRepository {
         }
 
         if (filter.startDate || filter.endDate) {
-            query.createdAt.$gte = filter.startDate;
-        }
+            query.createdAt = {};
 
-        if (filter.endDate) {
-            query.createdAt.$lte = filter.endDate;
+            if (filter.startDate) {
+                query.createdAt.$gte = filter.startDate;
+            }
+    
+            if (filter.endDate) {
+                query.createdAt.$lte = filter.endDate;
+            }
         }
 
         const expenses = await ExpenseModel.find(query).sort({ createAt: -1 });

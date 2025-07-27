@@ -4,8 +4,8 @@ import { ExpenseRepository, FindExpensesfilter } from "../../repositories/Expens
 interface GetExpensesRequest {
     idUser: string;
     category?: ExpenseCategory;
-    startDate?: string;
-    endDate?: string;
+    startDate?: Date;
+    endDate?: Date;
 }
 
 interface GetExpensesResponse {
@@ -13,15 +13,21 @@ interface GetExpensesResponse {
     total: number;
 }
 
-export class GetExpensesUseCase {
+export class GetAllExpensesUseCase {
     constructor(private expenseRepository: ExpenseRepository) {}
 
     async execute({ idUser, category, startDate, endDate }: GetExpensesRequest): Promise<GetExpensesResponse> {
+        let fullEndDate: Date | undefined;
+
+        if(endDate){
+            fullEndDate = new Date(endDate);
+            fullEndDate.setUTCHours(23, 59, 59, 999);
+        }
         const filter: FindExpensesfilter = {
             idUser,
             category,
             startDate: startDate? new Date(startDate) : undefined,
-            endDate: endDate ? new Date(endDate) : undefined
+            endDate: fullEndDate
         }
 
         const expenses = await this.expenseRepository.findMany(filter);
