@@ -1,10 +1,9 @@
-import { coerce, z } from 'zod';
+import {  z } from 'zod';
 import { EXPENSE_CATEGORIES } from '../../../core/entities/Expense';
-import { start } from 'repl';
 export const createExpenseSchema = z.object({
     name: z
         .string()
-        .min(2, 'Nome é obrigatório')
+        .min(1, 'Nome é obrigatório')
         .max(100, 'Nome deve ter no máximo 100 caracteres')
         .trim(),
     value: z.number().positive('Valor deve ser maior que zero'),

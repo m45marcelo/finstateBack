@@ -2,6 +2,7 @@ import { UserRepository } from "../../application/repositories/UserRepository";
 import { CreatedUserData, UpdateUserData, User } from "../../core/entities/User";
 import { UserModel } from "../database/models/UserModel";
 
+
 export class MongoUserRepository implements UserRepository {
     async create(data: CreatedUserData): Promise<User> {
         const user = await UserModel.create({
