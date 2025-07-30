@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { userRoutes } from './user/userRoutes';
 import { expenseRoutes } from './expense/expenseRoutes';
+import { incomeRoutes } from './income/incomeRoutes';
 
 const routes = Router();
 
@@ -15,5 +16,6 @@ routes.get('/', (req, res) => {
 
 routes.use(userRoutes);
 routes.use(expenseRoutes);
+routes.use(incomeRoutes);
 
 export { routes };

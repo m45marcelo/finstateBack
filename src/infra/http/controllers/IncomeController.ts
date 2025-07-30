@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { createIncomeSchema } from "../validators/incomeValidation";
-import { CreateUserUseCase } from "../../../application/use-cases/User/CreateUser";
 import { MongoUserRepository } from "../../repositories/MongoUserRepository";
 import { MongoIncomeRepository } from "../../repositories/MongoIncomeRepository";
 import { CreateIncomeUseCase } from "../../../application/use-cases/Income/CreateIncome";
