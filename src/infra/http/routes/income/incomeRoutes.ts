@@ -11,4 +11,8 @@ incomeRoutes.post('/incomes', (res, req, next) => {
     incomeController.createIncome(res, req).catch(next);
 });
 
+incomeRoutes.get('/incomes', (res, req, next) => {
+    incomeController.getAllIncomes(res, req).catch(next);
+})
+
 export { incomeRoutes };
