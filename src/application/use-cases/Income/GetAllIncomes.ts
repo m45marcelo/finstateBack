@@ -1,4 +1,4 @@
-import { Income } from '../../../core/entities/Income';
+import { Income, IncomeCategory } from '../../../core/entities/Income';
 import {
     FindIncomesfilter,
     IncomeRepository,
@@ -6,9 +6,9 @@ import {
 
 interface GetAllIncomesRequest {
     idUser: string;
-    category: string;
-    startDate: string;
-    endDate: string;
+    category?: IncomeCategory;
+    startDate?: Date;
+    endDate?: Date;
 }
 
 interface GetAllIncomesResponse {
