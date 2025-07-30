@@ -29,7 +29,7 @@ export class IncomeController {
     }
 
     async getAllIncomes(request: Request, response: Response) : Promise<Response> {
-        const { category, startDate, endDate } = getAllIncomesSchema.parse(request.body);
+        const { category, startDate, endDate } = getAllIncomesSchema.parse(request.query);
         const idUser = request.user.id;
 
         const incomeRepository = new MongoIncomeRepository()
