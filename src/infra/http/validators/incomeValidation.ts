@@ -17,7 +17,12 @@ export const createIncomeSchema = z.object({
             message: `Categoria inválida, opções: ${INCOME_CATEGORIES.join(', ')}`,
         }
         )
+})
 
+export const getAllIncomesSchema = z.object({
+    category: z.enum(INCOME_CATEGORIES).optional(),
+    startDate: z.coerce.date().optional(),
+    endDate: z.coerce.date().optional()
 })
 
 
