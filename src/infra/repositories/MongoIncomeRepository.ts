@@ -34,7 +34,7 @@ export class MongoIncomeRepository implements IncomeRepository {
             }
 
             if(filter.endDate) {
-                query.endDate.$lte = filter.endDate
+                query.createdAt.$lte = filter.endDate
             }
         }
 
