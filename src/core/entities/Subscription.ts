@@ -1,0 +1,48 @@
+export const SUBSCRIPTION_CATEGORIES = [
+    'Entretenimento',
+    'Moradia',
+    'Música',
+    'Tecnologia',
+    'Educação',
+    'Transporte',
+    'Saúde',
+    'Outros',
+] as const;
+
+export const SUBSCRIPTION_FREQUENCIES = [
+    'Mensal',
+    'Anual',
+    'Semanal',
+    'Outra',
+] as const;
+
+export type SubscriptionCategories = (typeof SUBSCRIPTION_CATEGORIES)[number];
+export type SubscriptionFrequencies = (typeof SUBSCRIPTION_CATEGORIES)[number];
+
+export interface Subscription {
+    id: string;
+    idUser: string;
+    name: string;
+    value: number;
+    frequecy: SubscriptionFrequencies;
+    category: SubscriptionCategories;
+    nextPay: Date;
+    createdAt: Date;
+    updatedAt: Date;
+}
+
+export interface CreateSubscriptionData {
+    name: string;
+    value: number;
+    frequency: SubscriptionFrequencies;
+    category: SubscriptionCategories;
+    nextPay: Date
+}
+
+export interface UpdatedSubscriptionData {
+    name?: string;
+    value?: number;
+    frequency?: SubscriptionFrequencies;
+    category?: SubscriptionCategories;
+    nextPay?: Date;
+}
