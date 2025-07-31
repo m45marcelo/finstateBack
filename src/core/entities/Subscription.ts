@@ -32,6 +32,7 @@ export interface Subscription {
 }
 
 export interface CreateSubscriptionData {
+    idUser: string;
     name: string;
     value: number;
     frequency: SubscriptionFrequencies;

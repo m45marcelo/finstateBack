@@ -14,7 +14,7 @@ export class GetAllUsersUseCase {
     constructor(private userRepository: UserRepository) {}
 
     async execute(): Promise<GetAllUsersResponse> {
-        const users = await this.userRepository.getAll();
+        const users = await this.userRepository.findMany();
         if (users.length === 0) {
             throw new NotFoundError('Ainda não existem usuários registrados');
         }
