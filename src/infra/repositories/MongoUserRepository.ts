@@ -1,6 +1,7 @@
 import { UserRepository } from "../../application/repositories/UserRepository";
 import { CreatedUserData, UpdateUserData, User } from "../../core/entities/User";
-import { UserModel } from "../database/models/UserModel";
+import { UserModel } from "../database/models/userModel";
+
 
 
 export class MongoUserRepository implements UserRepository {
@@ -13,7 +14,7 @@ export class MongoUserRepository implements UserRepository {
         return user.toJSON();
     }
 
-    async getAll(): Promise<User[]> {
+    async findMany(): Promise<User[]> {
         const users = await UserModel.find();
         
         return users;
