@@ -33,6 +33,10 @@ const SubscriptionSchema = new Schema<Subscription>(
         nextPay: {
             type: Date,
             required: true
+        },
+        active: {
+            type: Boolean,
+            default: true
         }
     },
     {
