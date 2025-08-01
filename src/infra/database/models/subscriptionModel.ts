@@ -20,7 +20,7 @@ const SubscriptionSchema = new Schema<Subscription>(
             required: true,
             min: 0.01
         },
-        frequecy: {
+        frequency: {
             type: String,
             required: true,
             enum: SUBSCRIPTION_FREQUENCIES,

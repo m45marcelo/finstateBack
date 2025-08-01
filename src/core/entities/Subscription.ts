@@ -24,7 +24,7 @@ export interface Subscription {
     idUser: string;
     name: string;
     value: number;
-    frequecy: SubscriptionFrequencies;
+    frequency: SubscriptionFrequencies;
     category: SubscriptionCategories;
     nextPay: Date;
     createdAt: Date;
