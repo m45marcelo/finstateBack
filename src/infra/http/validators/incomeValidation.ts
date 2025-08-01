@@ -24,3 +24,10 @@ export const getAllIncomesSchema = z.object({
     startDate: z.coerce.date().optional(),
     endDate: z.coerce.date().optional()
 })
+
+
+ // idUser: string;
+    // name: string;
+    // value: number;
+    // category: IncomeCategory;
+
