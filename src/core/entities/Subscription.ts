@@ -27,6 +27,7 @@ export interface Subscription {
     frequency: SubscriptionFrequencies;
     category: SubscriptionCategories;
     nextPay: Date;
+    active: boolean;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -46,4 +47,5 @@ export interface UpdatedSubscriptionData {
     frequency?: SubscriptionFrequencies;
     category?: SubscriptionCategories;
     nextPay?: Date;
+    active?: boolean;
 }
