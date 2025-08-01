@@ -6,13 +6,10 @@ import { CreateSubscriptionUseCase } from '../../../application/use-cases/Subscr
 import { SubscriptionCategories } from '../../../core/entities/Subscription';
 
 export class SubscriptionController {
-    async createSubscription(
-        request: Request,
-        response: Response,
-    ): Promise<Response> {
+    async createSubscription(request: Request, response: Response): Promise<Response> {
         const { name, value, frequency, category, nextPay } =
             createSubscriptionSchema.parse(request.body);
-
+        console.log(name, value, frequency, category, nextPay)
         const idUser = request.user.id;
 
         const userRepository = new MongoUserRepository();

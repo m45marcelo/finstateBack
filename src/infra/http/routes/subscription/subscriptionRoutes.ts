@@ -8,8 +8,8 @@ const subscriptionController = new SubscriptionController();
 
 subscriptionRoutes.use(authMiddleware);
 
-subscriptionRoutes.post('subscription', (res, req, next) =>
-    subscriptionController.createSubscription(res, req).catch(next)
+subscriptionRoutes.post('/subscription', (req, res, next) =>
+    subscriptionController.createSubscription(req, res).catch(next)
 )
 
 export { subscriptionRoutes }

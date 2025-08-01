@@ -7,12 +7,12 @@ const incomeController = new IncomeController();
 
 incomeRoutes.use(authMiddleware);
 
-incomeRoutes.post('/incomes', (res, req, next) => {
-    incomeController.createIncome(res, req).catch(next);
+incomeRoutes.post('/incomes', (req, res, next) => {
+    incomeController.createIncome(req, res).catch(next);
 });
 
-incomeRoutes.get('/incomes', (res, req, next) => {
-    incomeController.getAllIncomes(res, req).catch(next);
+incomeRoutes.get('/incomes', (req, res, next) => {
+    incomeController.getAllIncomes(req, res).catch(next);
 })
 
 export { incomeRoutes };
