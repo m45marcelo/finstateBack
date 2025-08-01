@@ -11,3 +11,5 @@ subscriptionRoutes.use(authMiddleware);
 subscriptionRoutes.post('subscription', (res, req, next) =>
     subscriptionController.createSubscription(res, req).catch(next)
 )
+
+export { subscriptionRoutes }
