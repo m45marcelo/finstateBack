@@ -9,7 +9,6 @@ import { GetAllIncomesUseCase } from "../../../application/use-cases/Income/GetA
 export class IncomeController {
     async createIncome(request: Request, response: Response): Promise<Response> {
         const { name, value, category } = createIncomeSchema.parse(request.body);
-
         const idUser = request.user.id;
 
         const userRepository = new MongoUserRepository();
