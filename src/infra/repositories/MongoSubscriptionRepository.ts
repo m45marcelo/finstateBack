@@ -1,4 +1,4 @@
-import { SubscriptionRepository } from '../../application/repositories/SubscriptionRepository';
+import { FindSubscriptionFilter, SubscriptionRepository } from '../../application/repositories/SubscriptionRepository';
 import {
     CreateSubscriptionData,
     Subscription,
@@ -16,10 +16,22 @@ export class MongoSubscriptionRepository implements SubscriptionRepository {
         return subscription.toJSON();
     }
 
-    async findMany(idUser: string): Promise<Subscription[]> {
-        const subscriptions = await subscriptionModel
-            .find({ userId: idUser })
-            .sort({ createdAt: -1 });
+    async findMany(filter: FindSubscriptionFilter): Promise<Subscription[]> {
+
+        const query: any = { idUser: filter.idUser };
+
+        if(filter.startDate || filter.endDate) {
+            query.createdAt = {};
+
+            if(filter.startDate) {
+                query.createdAt.$gte = filter.startDate;
+            }
+
+            if(filter.endDate) {
+                query.createdAt.$lte = filter.endDate;
+            }
+        }
+        const subscriptions = await subscriptionModel.find(query).sort({ createdAt: -1 });
 
         return subscriptions.map((subscription) => subscription.toJSON());
     }
