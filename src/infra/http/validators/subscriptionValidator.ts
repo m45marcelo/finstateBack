@@ -36,3 +36,7 @@ export const createSubscriptionSchema = z.object({
     nextPay: z.coerce.date()
 });
 
+export const getAllSubscriptionsSchema = z.object({
+    startDate: z.coerce.date().optional(),
+    endDate: z.coerce.date().optional()
+})
