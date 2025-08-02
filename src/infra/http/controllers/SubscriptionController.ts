@@ -1,15 +1,16 @@
 import { Request, Response } from 'express';
-import { createSubscriptionSchema } from '../validators/subscriptionValidator';
+import { createSubscriptionSchema, getAllSubscriptionsSchema } from '../validators/subscriptionValidator';
 import { MongoSubscriptionRepository } from '../../repositories/MongoSubscriptionRepository';
 import { MongoUserRepository } from '../../repositories/MongoUserRepository';
 import { CreateSubscriptionUseCase } from '../../../application/use-cases/Subscription/CreateSubscription';
 import { SubscriptionCategories } from '../../../core/entities/Subscription';
+import { GetAllSubscriptionUseCase } from '../../../application/use-cases/Subscription/GetAllSubscriptions';
 
 export class SubscriptionController {
     async createSubscription(request: Request, response: Response): Promise<Response> {
         const { name, value, frequency, category, nextPay } =
             createSubscriptionSchema.parse(request.body);
-        console.log(name, value, frequency, category, nextPay)
+
         const idUser = request.user.id;
 
         const userRepository = new MongoUserRepository();
@@ -30,5 +31,22 @@ export class SubscriptionController {
         });
 
         return response.status(200).json(result);
+    }
+
+    async getAllSubscriptions(request: Request, response: Response): Promise<Response>{
+        const { startDate, endDate } = getAllSubscriptionsSchema.parse(request.query);
+
+        const idUser = request.user.id;
+
+        const subscriptionRepository = new MongoSubscriptionRepository();
+        const getAllSubscriptionsUseCase = new GetAllSubscriptionUseCase(subscriptionRepository);
+
+        const result = await getAllSubscriptionsUseCase.execute({
+            idUser,
+            startDate,
+            endDate
+        })
+
+        return response.json(result)
     }
 }
