@@ -1,9 +1,11 @@
 export const EXPENSE_CATEGORIES = [
-    'Alimentação',
+    'Supermercado',
     'Moradia',
+    'Entretenimento',
     'Transporte',
     'Lazer',
     'Saúde',
+    'Vestuário',
     'Outros',
 ] as const;
 
