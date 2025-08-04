@@ -1,9 +1,9 @@
 import { BudgetByCategory, CreateBudgetByCategoryData, CreateGeneralBudgetData, GeneralBudget, UpdateGeneralBudget } from "../../core/entities/Budgets";
-interface GeneralBudgetFilter {
+export interface GeneralBudgetFilter {
     iduser: string;
 }
 
-interface BudgetByCategoryFilter {
+export interface BudgetByCategoryFilter {
     idUser: string;
 }
 
