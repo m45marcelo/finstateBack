@@ -7,7 +7,7 @@ const expenseController = new ExpenseController();
 
 expenseRoutes.use(authMiddleware);
 
-expenseRoutes.post('/expenses', (req, res, next) => {
+expenseRoutes.post('/expense', (req, res, next) => {
     expenseController.createExpense(req, res).catch(next);
 });
 
