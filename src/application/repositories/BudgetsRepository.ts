@@ -16,7 +16,7 @@ export interface GeneralBudgetRepository {
 
 export interface BudgetByCategoryRepository {
     create(data: CreateBudgetByCategoryData): Promise<BudgetByCategory>;
-    findMany(filter: BudgetByCategoryFilter): Promise<BudgetByCategory>;
+    findMany(filter: BudgetByCategoryFilter): Promise<BudgetByCategory[]>;
     update(id: string, data: BudgetByCategoryFilter): Promise<BudgetByCategory | null>
     delete(id: string): Promise<void>;
 }
