@@ -7,7 +7,7 @@ const incomeController = new IncomeController();
 
 incomeRoutes.use(authMiddleware);
 
-incomeRoutes.post('/incomes', (req, res, next) => {
+incomeRoutes.post('/income', (req, res, next) => {
     incomeController.createIncome(req, res).catch(next);
 });
 
