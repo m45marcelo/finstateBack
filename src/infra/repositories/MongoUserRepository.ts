@@ -1,6 +1,7 @@
 import { UserRepository } from "../../application/repositories/UserRepository";
 import { CreatedUserData, UpdateUserData, User } from "../../core/entities/User";
-import { UserModel } from "../database/models/userModel";
+import { UserModel } from "../database/models/UserModel";
+
 
 
 
