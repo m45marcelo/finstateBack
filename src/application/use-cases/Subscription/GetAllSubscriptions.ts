@@ -26,7 +26,7 @@ export class GetAllSubscriptionUseCase {
         const filter = {
             idUser,
             startDate,
-            endDate
+            endDate: fullEndDate
         }
         const subscriptions = await this.subscriptionRepository.findMany(filter);
 
