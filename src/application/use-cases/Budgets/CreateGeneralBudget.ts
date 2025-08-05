@@ -1,7 +1,12 @@
-import { BudgetCategories, BudgetStatus, CreateGeneralBudgetData, GeneralBudget } from "../../../core/entities/Budgets";
-import { NotFoundError, ValidationError } from "../../../shared/errors";
-import { GeneralBudgetRepository } from "../../repositories/BudgetsRepository";
-import { UserRepository } from "../../repositories/UserRepository";
+import {
+    BudgetCategories,
+    BudgetStatus,
+    CreateGeneralBudgetData,
+    GeneralBudget,
+} from '../../../core/entities/Budgets';
+import { NotFoundError, ValidationError } from '../../../shared/errors';
+import { GeneralBudgetRepository } from '../../repositories/BudgetsRepository';
+import { UserRepository } from '../../repositories/UserRepository';
 
 interface CreateGeneralBudgetRequest {
     idUser: string;
@@ -15,17 +20,27 @@ interface CreateGeneralBudgetRequest {
 interface CreateGeneralBudgetResponse {
     generalBudget: GeneralBudget;
 }
-export class CreateGeneralBudgetUseCase{
-    constructor(private generalBudgetRepository: GeneralBudgetRepository, private userRepository: UserRepository) {}
+export class CreateGeneralBudgetUseCase {
+    constructor(
+        private generalBudgetRepository: GeneralBudgetRepository,
+        private userRepository: UserRepository,
+    ) {}
 
-    async execute({ idUser, category, limit, spent, remaining, status }: CreateGeneralBudgetRequest): Promise<CreateGeneralBudgetResponse> {
+    async execute({
+        idUser,
+        category,
+        limit,
+        spent,
+        remaining,
+        status,
+    }: CreateGeneralBudgetRequest): Promise<CreateGeneralBudgetResponse> {
         const user = await this.userRepository.findById(idUser);
 
-        if(!user) {
+        if (!user) {
             throw new NotFoundError('Usuário não encontrado');
         }
 
-        if(limit <= 0) {
+        if (limit <= 0) {
             throw new ValidationError('Limite tem que ser maior que zero');
         }
 
@@ -35,13 +50,14 @@ export class CreateGeneralBudgetUseCase{
             limit,
             spent,
             remaining,
-            status
-        }
+            status,
+        };
 
-        const generalBudget = await this.generalBudgetRepository.create(generalBudgetData);
+        const generalBudget =
+            await this.generalBudgetRepository.create(generalBudgetData);
 
         return {
-            generalBudget
-        }
+            generalBudget,
+        };
     }
 }
