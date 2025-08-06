@@ -47,6 +47,7 @@ export class SubscriptionController {
             endDate
         })
 
-        return response.json(result)
+        return response.json(result);
     }
 }
+

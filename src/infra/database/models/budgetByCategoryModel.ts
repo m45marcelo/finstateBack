@@ -5,7 +5,8 @@ const budgetByCategorySchema = new Schema<BudgetByCategory>(
     {
         idUser: {
             type: String,
-            required: true
+            required: true,
+            ref: 'User'
         },
         category: {
             type: String,

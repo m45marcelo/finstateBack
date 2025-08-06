@@ -11,25 +11,13 @@ const generalBudgetSchema = new Schema<GeneralBudget>(
         idUser: {
             type: String,
             required: true,
+            ref: 'User'
         },
         limit: {
             type: Number,
             required: true,
             min: 0.01,
-        },
-        spent: {
-            type: Number,
-            required: true,
-        },
-        remaining: {
-            type: Number,
-            required: true,
-        },
-        status: {
-            type: String,
-            required: true,
-            enum: BUDGET_STATUS,
-        },
+        }
     }, 
     {
         timestamps: true,
