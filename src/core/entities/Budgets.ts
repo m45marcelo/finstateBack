@@ -17,9 +17,6 @@ export interface GeneralBudget {
     id: string;
     idUser: string;
     limit: number;
-    spent: number;
-    remaining: number;
-    status: BudgetStatus;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -38,11 +35,7 @@ export interface BudgetByCategory {
 
 export interface CreateGeneralBudgetData {
     idUser: string;
-    category: BudgetCategories;
     limit: number;
-    spent: number;
-    remaining: number;
-    status: BudgetStatus;
 }
 
 export interface CreateBudgetByCategoryData {
