@@ -1,6 +1,5 @@
-import { GeneralBudgetFilter, GeneralBudgetRepository } from "../../application/repositories/BudgetsRepository";
+import { GeneralBudgetRepository } from "../../application/repositories/BudgetsRepository";
 import { CreateGeneralBudgetData, GeneralBudget, UpdateGeneralBudget } from "../../core/entities/Budgets";
-import { NotFoundError } from "../../shared/errors";
 import { GeneralBudgetModel } from "../database/models/generalBudgetModel";
 
 export class MongoGeneralBudgetRepository implements GeneralBudgetRepository {
@@ -15,12 +14,10 @@ export class MongoGeneralBudgetRepository implements GeneralBudgetRepository {
         return generalBudget.toJSON();
     }
 
-    async findMany(filter: GeneralBudgetFilter): Promise<GeneralBudget[]> {
-        const query: any = { idUser: filter.iduser };
+    async findByIdUser(idUser: string): Promise<GeneralBudget[]> {
+        const generalBudget = await GeneralBudgetModel.find({idUser: idUser});
 
-        const generalBudgets = await GeneralBudgetModel.find(query).sort({ createdAt: -1});
-
-        return generalBudgets.map((generalBudgets) => generalBudgets.toJSON());
+        return generalBudget.map((budget) => budget.toJSON());
     }
 
     async update(id: string, data: UpdateGeneralBudget): Promise<GeneralBudget | null> {
