@@ -4,17 +4,17 @@ import {
     CreateGeneralBudgetData,
     GeneralBudget,
 } from '../../../core/entities/Budgets';
-import { NotFoundError, ValidationError } from '../../../shared/errors';
+import {
+    ConflictError,
+    NotFoundError,
+    ValidationError,
+} from '../../../shared/errors';
 import { GeneralBudgetRepository } from '../../repositories/BudgetsRepository';
 import { UserRepository } from '../../repositories/UserRepository';
 
 interface CreateGeneralBudgetRequest {
     idUser: string;
-    category: BudgetCategories;
     limit: number;
-    spent: number;
-    remaining: number;
-    status: BudgetStatus;
 }
 
 interface CreateGeneralBudgetResponse {
@@ -28,13 +28,11 @@ export class CreateGeneralBudgetUseCase {
 
     async execute({
         idUser,
-        category,
         limit,
-        spent,
-        remaining,
-        status,
     }: CreateGeneralBudgetRequest): Promise<CreateGeneralBudgetResponse> {
         const user = await this.userRepository.findById(idUser);
+        const userHasBudget =
+            await this.generalBudgetRepository.findByIdUser(idUser);
 
         if (!user) {
             throw new NotFoundError('Usuário não encontrado');
@@ -44,13 +42,13 @@ export class CreateGeneralBudgetUseCase {
             throw new ValidationError('Limite tem que ser maior que zero');
         }
 
+        if (userHasBudget.length === 1) {
+            throw new ConflictError('O usuário já possui um orçamento geral');
+        }
+
         const generalBudgetData: CreateGeneralBudgetData = {
             idUser,
-            category,
             limit,
-            spent,
-            remaining,
-            status,
         };
 
         const generalBudget =
