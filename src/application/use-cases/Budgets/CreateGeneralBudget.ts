@@ -1,6 +1,4 @@
 import {
-    BudgetCategories,
-    BudgetStatus,
     CreateGeneralBudgetData,
     GeneralBudget,
 } from '../../../core/entities/Budgets';
@@ -42,13 +40,16 @@ export class CreateGeneralBudgetUseCase {
             throw new ValidationError('Limite tem que ser maior que zero');
         }
 
-        if (userHasBudget.length === 1) {
+        if (userHasBudget) {
             throw new ConflictError('O usuário já possui um orçamento geral');
         }
 
         const generalBudgetData: CreateGeneralBudgetData = {
             idUser,
             limit,
+            spent: 0,
+            remaining: limit,
+            status: 'off'
         };
 
         const generalBudget =
