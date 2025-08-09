@@ -1,4 +1,4 @@
-import { BudgetByCategory, CreateBudgetByCategoryData, CreateGeneralBudgetData, GeneralBudget, UpdateGeneralBudget } from "../../core/entities/Budgets";
+import { BudgetByCategory, CreateBudgetByCategoryData, CreateGeneralBudgetData, GeneralBudget, UpdateGeneralBudgetData } from "../../core/entities/Budgets";
 
 export interface BudgetByCategoryFilter {
     idUser: string;
@@ -6,8 +6,8 @@ export interface BudgetByCategoryFilter {
 
 export interface GeneralBudgetRepository {
     create(data: CreateGeneralBudgetData): Promise<GeneralBudget>;
-    findByIdUser(idUser: string): Promise<GeneralBudget[]>;
-    update(id: string, data: UpdateGeneralBudget): Promise<GeneralBudget | null>;
+    findByIdUser(idUser: string): Promise<GeneralBudget | null>;
+    update(id: string, data: UpdateGeneralBudgetData): Promise<GeneralBudget | null>;
     delete(id: string): Promise<void>;
 }
 
