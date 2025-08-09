@@ -4,6 +4,7 @@ import { MongoGeneralBudgetRepository } from "../../repositories/MongoGeneralBud
 import { CreateGeneralBudgetUseCase } from "../../../application/use-cases/Budgets/CreateGeneralBudget";
 import { MongoUserRepository } from "../../repositories/MongoUserRepository";
 import { GetGeneralBudgetUseCase } from "../../../application/use-cases/Budgets/GetGeneralBudgetUseCase";
+import { UpdateGeneralBudgetUseCase } from "../../../application/use-cases/Budgets/UpdateGeneralBudgetUseCase";
 
 export class GeneralBudgetController {
     async createGeneralBudget(request: Request, response: Response): Promise<Response> {
@@ -33,5 +34,23 @@ export class GeneralBudgetController {
         const result = await getGeneralBudgetUseCase.execute({idUser});
         
         return response.json(result);
+    }
+
+    async updateGeneralBudget(request: Request, response: Response): Promise<Response> {
+        const idUser = request.user.id;
+        const { id, limit, spent, remaining, status } = request.body;
+
+        const generalBudgetRepository = new MongoGeneralBudgetRepository();
+        const updateGeneralBudgetUseCase = new UpdateGeneralBudgetUseCase(generalBudgetRepository);
+
+        const result = await updateGeneralBudgetUseCase.execute({
+            idUser,
+            limit,
+            spent,
+            remaining,
+            status
+        })
+
+        return response.status(200).json(result);
     }
 }
