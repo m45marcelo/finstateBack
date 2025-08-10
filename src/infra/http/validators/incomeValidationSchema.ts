@@ -20,3 +20,8 @@ export const createIncomeSchema = z.object({
 })
 
 
+export const getAllIncomesSchema = z.object({
+    category: z.enum(INCOME_CATEGORIES).optional(),
+    startDate: z.coerce.date().optional(),
+    endDate: z.coerce.date().optional()
+})
