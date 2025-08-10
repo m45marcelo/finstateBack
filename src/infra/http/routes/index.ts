@@ -4,6 +4,7 @@ import { expenseRoutes } from './expense/expenseRoutes';
 import { incomeRoutes } from './income/incomeRoutes';
 import { subscriptionRoutes } from './subscription/subscriptionRoutes';
 import { generalBudgetRoutes } from './budgets/generalBudgetRoutes';
+import { budgetByCategoryRoutes } from './budgets/budgetByCategoryRoutes';
 
 const routes = Router();
 
@@ -21,5 +22,6 @@ routes.use(expenseRoutes);
 routes.use(incomeRoutes);
 routes.use(subscriptionRoutes);
 routes.use(generalBudgetRoutes);
+routes.use(budgetByCategoryRoutes)
 
 export { routes };
