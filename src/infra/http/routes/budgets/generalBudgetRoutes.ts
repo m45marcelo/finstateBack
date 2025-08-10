@@ -13,6 +13,10 @@ generalBudgetRoutes.post('/general-budget', (req, res, next) => {
 
 generalBudgetRoutes.get('/general-budget', (req, res, next) => {
     generalBudgetController.getGeneralBudget(req, res).catch(next);
+});
+
+generalBudgetRoutes.put('/general-budget', (req, res, next) => {
+    generalBudgetController.updateGeneralBudget(req, res).catch(next);
 })
 
 export { generalBudgetRoutes }
