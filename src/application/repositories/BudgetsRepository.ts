@@ -1,7 +1,8 @@
-import { BudgetByCategory, CreateBudgetByCategoryData, CreateGeneralBudgetData, GeneralBudget, UpdateGeneralBudgetData } from "../../core/entities/Budgets";
+import { BudgetByCategory, BudgetCategories, CreateBudgetByCategoryData, CreateGeneralBudgetData, GeneralBudget, UpdateGeneralBudgetData } from "../../core/entities/Budgets";
 
 export interface BudgetByCategoryFilter {
     idUser: string;
+    category: BudgetCategories;
 }
 
 export interface GeneralBudgetRepository {
