@@ -1,4 +1,5 @@
 import { GeneralBudget } from '../../../core/entities/Budgets';
+import { NotFoundError } from '../../../shared/errors';
 import { GeneralBudgetRepository } from '../../repositories/BudgetsRepository';
 
 interface GetGeneralBudgetRequest {
@@ -6,7 +7,7 @@ interface GetGeneralBudgetRequest {
 }
 
 interface GetGeneralBudgetResponse {
-    generalBudget: GeneralBudget[];
+    generalBudget: GeneralBudget;
 }
 
 export class GetGeneralBudgetUseCase {
@@ -15,8 +16,12 @@ export class GetGeneralBudgetUseCase {
     async execute({
         idUser,
     }: GetGeneralBudgetRequest): Promise<GetGeneralBudgetResponse> {
-        const generalBudget = await this.generalBudgetRepository.findByIdUser(idUser);
-        
+        const generalBudget =
+            await this.generalBudgetRepository.findByIdUser(idUser);
+
+        if (!generalBudget) {
+            throw new NotFoundError('O Usuário ainda não tem um orçamento geral criado');
+        }
         return {
             generalBudget,
         };
