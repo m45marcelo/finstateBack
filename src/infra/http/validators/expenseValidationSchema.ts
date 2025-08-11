@@ -6,7 +6,7 @@ export const createExpenseSchema = z.object({
         .min(1, 'Nome é obrigatório')
         .max(100, 'Nome deve ter no máximo 100 caracteres')
         .trim(),
-    value: z.number().positive('Valor deve ser maior que zero'),
+    value: z.number().positive('O valor deve ser maior que zero'),
     category: z
         .string()
         .refine((val): val is typeof EXPENSE_CATEGORIES[number] => 
@@ -17,3 +17,8 @@ export const createExpenseSchema = z.object({
     ),
 });
 
+export const getAllExpensesSchema = z.object({
+    category: z.enum(EXPENSE_CATEGORIES).optional(),
+    startDate: z.coerce.date().optional(),
+    endDate: z.coerce.date().optional()
+})
