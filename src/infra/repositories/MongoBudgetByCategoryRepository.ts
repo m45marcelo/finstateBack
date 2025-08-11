@@ -5,6 +5,7 @@ import {
 import {
     CreateBudgetByCategoryData,
     BudgetByCategory,
+    UpdateBudgetByCategoryData,
 } from '../../core/entities/Budgets';
 import { BudgetByCategoryModel } from '../database/models/budgetByCategoryModel';
 
@@ -12,33 +13,33 @@ export class MongoBudgetByCategoryRepository
     implements BudgetByCategoryRepository
 {
     async create(data: CreateBudgetByCategoryData): Promise<BudgetByCategory> {
-        const budgetByCategory = await BudgetByCategoryModel.create({
+        const budget = await BudgetByCategoryModel.create({
             ...data,
             createdAt: new Date(),
         });
 
-        return budgetByCategory.toJSON();
+        return budget.toJSON();
     }
 
     async findMany(
         filter: BudgetByCategoryFilter,
     ): Promise<BudgetByCategory[]> {
-        const query: any = { idUser: filter.idUser };
+        //const query: any = { idUser: filter.idUser };
 
-        const budgetsByCategory = await BudgetByCategoryModel.find(query).sort({
+        const budgets = await BudgetByCategoryModel.find(filter).sort({
             createdAt: -1,
         });
 
-        return budgetsByCategory.map((budgetByCategory) =>
+        return budgets.map((budgetByCategory) =>
             budgetByCategory.toJSON(),
         );
     }
 
     async update(
         id: string,
-        data: BudgetByCategoryFilter,
+        data: UpdateBudgetByCategoryData,
     ): Promise<BudgetByCategory | null> {
-        const budgetByCategory = await BudgetByCategoryModel.findByIdAndUpdate(
+        const budget = await BudgetByCategoryModel.findByIdAndUpdate(
             id,
             {
                 ...data,
@@ -47,7 +48,7 @@ export class MongoBudgetByCategoryRepository
             { new: true },
         );
 
-        return budgetByCategory ? budgetByCategory.toJSON() : null;
+        return budget ? budget.toJSON() : null;
     }
 
     async delete(id: string): Promise<void> {
