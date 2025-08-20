@@ -7,6 +7,9 @@ import { MongoUserRepository } from '../../repositories/MongoUserRepository';
 import { CreateUserUseCase } from '../../../application/use-cases/User/CreateUser';
 import { GetAllUsersUseCase } from '../../../application/use-cases/User/GetAllUsers';
 import { AuthenticateUserUseCase } from '../../../application/use-cases/User/AuthenticateUser';
+import { ValidationError } from '../../../shared/errors';
+import { CloudinaryUploadService } from '../../storage/CloudinaryUploadService';
+import { UploadUserAvatarUseCase } from '../../../application/use-cases/User/UploadUserAvatar';
 
 export class UserController {
     async createUser(request: Request, response: Response): Promise<Response> {
@@ -51,4 +54,19 @@ export class UserController {
 
         return response.status(200).json(result);
     }
+
+    async profile(request: Request, response: Response): Promise<Response> {
+        const userRepository = new MongoUserRepository();
+        const user = await userRepository.findById(request.user.id);
+
+        if(!user) {
+            return response.status(404).json({message: 'Usuário não encontrado'});
+        }
+
+        const { password: _, ...userWithoutPassword } = user;
+
+        return response.json({ user: userWithoutPassword })
+    }
+
+    
 }
