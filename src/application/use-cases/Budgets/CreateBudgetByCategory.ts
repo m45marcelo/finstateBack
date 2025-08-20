@@ -1,7 +1,7 @@
 import { BudgetByCategory, BudgetCategories, CreateBudgetByCategoryData } from "../../../core/entities/Budgets";
 import { MongoBudgetByCategoryRepository } from "../../../infra/repositories/MongoBudgetByCategoryRepository";
 import { MongoUserRepository } from "../../../infra/repositories/MongoUserRepository";
-import { ConflictError, NotFoundError } from "../../../shared/errors";
+import { ConflictError, NotFoundError, ValidationError } from "../../../shared/errors";
 
 interface CreateBudgetByCategoryRequest {
     idUser: string;
@@ -35,6 +35,10 @@ export class CreateBudgetByCategoryUseCase {
 
         if(userHasBudgetInCategory.length > 0){
             throw new ConflictError("Já existe um orçamento feito com essa categoria");
+        }
+
+        if(limit < 0){
+            throw new ValidationError('O limite tem que ser maior que zero');
         }
 
         const budgetByCategoryData: CreateBudgetByCategoryData = {
