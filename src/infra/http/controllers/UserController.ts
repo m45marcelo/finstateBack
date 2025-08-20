@@ -68,5 +68,22 @@ export class UserController {
         return response.json({ user: userWithoutPassword })
     }
 
-    
+    async uploadAvatar(request: Request, response: Response): Promise<Response> {
+        if(!request.file) {
+            throw new ValidationError('Nenhuma imagem foi enviada')
+        }
+
+        const userRepository = new MongoUserRepository();
+        const uploadService = new CloudinaryUploadService();
+        const uploadUserAvatarUseCase = new UploadUserAvatarUseCase(userRepository, uploadService);
+
+        const result = await uploadUserAvatarUseCase.execute({
+            idUser: request.user.id,
+            imageBuffer: request.file.buffer,
+            mimetype: request.file.mimetype,
+            size: request.file.size
+        })
+
+        return response.json(result);
+    }
 }
