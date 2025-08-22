@@ -2,9 +2,10 @@ import { Request, Response } from "express";
 import { CreateBudgetByCategoryUseCase } from "../../../application/use-cases/Budgets/CreateBudgetByCategory";
 import { MongoBudgetByCategoryRepository } from "../../repositories/MongoBudgetByCategoryRepository";
 import { MongoUserRepository } from "../../repositories/MongoUserRepository";
-import { createBudgetByCategorySchema, getBudgetByCategorySchema } from "../validators/budgetByCategoryValidateSchema";
+import { createBudgetByCategorySchema, getBudgetByCategorySchema, updateBudgetByCategorySchema } from "../validators/budgetByCategoryValidateSchema";
 import { BudgetCategories, BudgetStatus } from "../../../core/entities/Budgets";
 import { GetBudgetsByCategoryUseCase } from "../../../application/use-cases/Budgets/GetBudgetsByCategory";
+import { UpdateBudgetByCategoryUseCase } from "../../../application/use-cases/Budgets/UpdateBudgetByCategory";
 
 export class BudgetByCategoryController {
     async createBudgetByCategory(request: Request, response: Response): Promise<Response> {
@@ -36,5 +37,17 @@ export class BudgetByCategoryController {
         return response.json(result);
     }
 
-    
+    async updateBudgetByCategory(request: Request, response: Response): Promise<Response> {
+        const idBudget = request.params.id;
+        const idUser = request.user.id;
+
+        const { limit } = updateBudgetByCategorySchema.parse(request.body);
+
+        const budgetByCategoryRepository = new MongoBudgetByCategoryRepository();
+        const updateBudgetByCategoryUseCase = new UpdateBudgetByCategoryUseCase(budgetByCategoryRepository);
+
+        const result = await updateBudgetByCategoryUseCase.execute({idUser, idBudget, limit});
+
+        return response.status(200).json(result);
+    }
 }
