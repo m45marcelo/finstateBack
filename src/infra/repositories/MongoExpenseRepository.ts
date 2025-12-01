@@ -3,14 +3,14 @@ import {
     FindExpensesfilter,
 } from '../../application/repositories/ExpenseRepository';
 import {
-    CreateExpenseData,
+    CreatedExpenseData,
     Expense,
-    UpdateExpenseData,
+    UpdatedExpenseData,
 } from '../../core/entities/Expense';
 import { ExpenseModel } from '../database/models/expenseModel';
 
 export class MongoExpenseRepository implements ExpenseRepository {
-    async create(data: CreateExpenseData): Promise<Expense> {
+    async create(data: CreatedExpenseData): Promise<Expense> {
         const expense = await ExpenseModel.create({
             ...data,
             createdAt: new Date(),
@@ -49,7 +49,7 @@ export class MongoExpenseRepository implements ExpenseRepository {
         return expenses.map((expense) => expense.toJSON());
     }
 
-    async update(id: string, data: UpdateExpenseData): Promise<Expense | null> {
+    async update(id: string, data: UpdatedExpenseData): Promise<Expense | null> {
         const expense = await ExpenseModel.findByIdAndUpdate(
             id,
             {

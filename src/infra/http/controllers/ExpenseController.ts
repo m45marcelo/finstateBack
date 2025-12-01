@@ -2,19 +2,20 @@ import { Request, Response } from 'express';
 import {
     createExpenseSchema,
     getAllExpensesSchema,
-} from '../validators/expenseValidateSchema';
+} from '../validators/expenseValidationSchema';
 import { MongoExpenseRepository } from '../../repositories/MongoExpenseRepository';
 import { CreateExpenseUseCase } from '../../../application/use-cases/Expense/CreateExpense';
 import { MongoUserRepository } from '../../repositories/MongoUserRepository';
 import { ExpenseCategory } from '../../../core/entities/Expense';
 import { GetAllExpensesUseCase } from '../../../application/use-cases/Expense/GetAllExpenses';
+import { MongoGeneralBudgetRepository } from '../../repositories/MongoGeneralBudgetRepository';
 
 export class ExpenseController {
     async createExpense(
         request: Request,
         response: Response,
     ): Promise<Response> {
-        const { name, value, category } = createExpenseSchema.parse(
+        const { description, value, category } = createExpenseSchema.parse(
             request.body,
         );
 
@@ -22,14 +23,16 @@ export class ExpenseController {
 
         const userRepository = new MongoUserRepository();
         const expenseRepository = new MongoExpenseRepository();
+        const generalBudgetRepository = new MongoGeneralBudgetRepository();
         const createExpenseUseCase = new CreateExpenseUseCase(
             expenseRepository,
             userRepository,
+            generalBudgetRepository
         );
 
         const result = await createExpenseUseCase.execute({
             idUser,
-            name,
+            description,
             value,
             category: category as ExpenseCategory,
         });

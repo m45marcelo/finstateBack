@@ -3,16 +3,16 @@ import {
     BudgetByCategoryRepository,
 } from '../../application/repositories/BudgetsRepository';
 import {
-    CreateBudgetByCategoryData,
+    CreatedBudgetByCategoryData,
     BudgetByCategory,
-    UpdateBudgetByCategoryData,
+    UpdatedBudgetByCategoryData,
 } from '../../core/entities/Budgets';
 import { BudgetByCategoryModel } from '../database/models/budgetByCategoryModel';
 
 export class MongoBudgetByCategoryRepository
     implements BudgetByCategoryRepository
 {
-    async create(data: CreateBudgetByCategoryData): Promise<BudgetByCategory> {
+    async create(data: CreatedBudgetByCategoryData): Promise<BudgetByCategory> {
         const budget = await BudgetByCategoryModel.create({
             ...data,
             createdAt: new Date(),
@@ -35,9 +35,15 @@ export class MongoBudgetByCategoryRepository
         );
     }
 
+    async findById(id: string): Promise<BudgetByCategory | null> {
+        const budget = await BudgetByCategoryModel.findById(id);
+
+        return budget ? budget.toJSON() : null;
+    }
+
     async update(
         id: string,
-        data: UpdateBudgetByCategoryData,
+        data: UpdatedBudgetByCategoryData,
     ): Promise<BudgetByCategory | null> {
         const budget = await BudgetByCategoryModel.findByIdAndUpdate(
             id,

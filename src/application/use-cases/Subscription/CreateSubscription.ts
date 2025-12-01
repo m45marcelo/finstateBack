@@ -10,7 +10,7 @@ import { UserRepository } from '../../repositories/UserRepository';
 
 interface CreateSubscriptionRequest {
     idUser: string;
-    name: string;
+    description: string;
     value: number;
     frequency: SubscriptionFrequencies;
     category: SubscriptionCategories;
@@ -27,7 +27,7 @@ export class CreateSubscriptionUseCase {
         private userRepository: UserRepository
     ) {}
 
-    async execute({idUser, name, value, frequency, category, nextPay}: CreateSubscriptionRequest): Promise<CreateSubscriptionResponse> {
+    async execute({idUser, description, value, frequency, category, nextPay}: CreateSubscriptionRequest): Promise<CreateSubscriptionResponse> {
         const user = await this.userRepository.findById(idUser);
 
         if(!user) {
@@ -40,7 +40,7 @@ export class CreateSubscriptionUseCase {
 
         const subscriptionData: CreateSubscriptionData = {
             idUser,
-            name: name.trim(),
+            description: description.trim(),
             value,
             frequency,
             category,

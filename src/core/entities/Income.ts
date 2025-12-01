@@ -5,22 +5,22 @@ export type IncomeCategory = typeof INCOME_CATEGORIES[number];
 export interface Income {
     id: string;
     idUser: string;
-    name: string;
+    description: string;
     value: number;
     category: IncomeCategory;
     createdAt: Date;
     updatedAt?: Date;
 };
 
-export interface CreateIncomeData {
+export interface CreatedIncomeData {
     idUser: string;
-    name: string;
+    description: string;
     value: number;
     category: IncomeCategory;
 };
 
-export interface UpdateIncomeData {
-    name?: string;
+export interface UpdatedIncomeData {
+    description?: string;
     value?: number;
     category?: IncomeCategory;
 }

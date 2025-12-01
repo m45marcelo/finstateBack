@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { createSubscriptionSchema, getAllSubscriptionsSchema } from '../validators/subscriptionValidator';
+import { createSubscriptionSchema, getAllSubscriptionsSchema } from '../validators/subscriptionValidationSchema';
 import { MongoSubscriptionRepository } from '../../repositories/MongoSubscriptionRepository';
 import { MongoUserRepository } from '../../repositories/MongoUserRepository';
 import { CreateSubscriptionUseCase } from '../../../application/use-cases/Subscription/CreateSubscription';
@@ -8,7 +8,7 @@ import { GetAllSubscriptionUseCase } from '../../../application/use-cases/Subscr
 
 export class SubscriptionController {
     async createSubscription(request: Request, response: Response): Promise<Response> {
-        const { name, value, frequency, category, nextPay } =
+        const { description, value, frequency, category, nextPay } =
             createSubscriptionSchema.parse(request.body);
 
         const idUser = request.user.id;
@@ -23,7 +23,7 @@ export class SubscriptionController {
 
         const result = await createSubscriptionUseCase.execute({
             idUser,
-            name,
+            description,
             value,
             frequency: frequency as SubscriptionCategories,
             category: category as SubscriptionCategories,

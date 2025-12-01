@@ -5,7 +5,7 @@ import { UserRepository } from '../../repositories/UserRepository';
 
 interface CreateIncomeRequest {
     idUser: string;
-    name: string;
+    description: string;
     value: number;
     category: IncomeCategory;
 }
@@ -20,7 +20,7 @@ export class CreateIncomeUseCase {
         private userRepository: UserRepository,
     ) {}
 
-    async execute({idUser, name, value, category}: CreateIncomeRequest): Promise<CreateIncomeResponse> {
+    async execute({idUser, description, value, category}: CreateIncomeRequest): Promise<CreateIncomeResponse> {
         const user = await this.userRepository.findById(idUser);
         if(!user) {
             throw new NotFoundError('Usuário não encontrado');
@@ -32,7 +32,7 @@ export class CreateIncomeUseCase {
 
         const incomeData: CreateIncomeData = {
             idUser,
-            name: name.trim(),
+            description: description.trim(),
             value,
             category
         }

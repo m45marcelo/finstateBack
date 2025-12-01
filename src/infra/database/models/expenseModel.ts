@@ -8,7 +8,7 @@ const expenseSchema = new Schema<Expense>(
             required: true,
             ref: 'User',
         },
-        name: {
+        description: {
             type: String,
             required: true,
             trim: true,

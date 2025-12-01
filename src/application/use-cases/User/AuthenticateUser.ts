@@ -29,10 +29,11 @@ export class AuthenticateUserUseCase {
 
         const passwordMatches = await compare(password, user.password);
         if (!passwordMatches) {
-            throw new UnauthorizedError('Email ou senha inválidas');
+            throw new UnauthorizedError('Email ou senha inválidos');
         }
 
-        const token = sign({ sub: user.id }, env.JWT_SECRET, {
+        const token = sign({}, env.JWT_SECRET, {
+            subject: user.id,
             expiresIn: '7d',
         });
 

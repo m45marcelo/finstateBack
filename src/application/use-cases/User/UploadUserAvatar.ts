@@ -27,6 +27,7 @@ export class UploadUserAvatarUseCase {
         size
     }: UploadUserAvatarRequest): Promise<UploadUserAvatarResponse> {
         const user = await this.userRepository.findById(idUser);
+
         if(!user) {
             throw new NotFoundError('Usuário não encontrado')
         }
@@ -43,7 +44,7 @@ export class UploadUserAvatarUseCase {
 
         try {
             if(user.avatarPublicId){
-                await this.uploadService.deletImage(user.avatarPublicId);
+                await this.uploadService.deleteImage(user.avatarPublicId);
             }
 
             const uploadResult = await this.uploadService.uploadImage(

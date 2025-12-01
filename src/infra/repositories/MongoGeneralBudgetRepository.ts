@@ -1,5 +1,5 @@
 import { GeneralBudgetRepository } from "../../application/repositories/BudgetsRepository";
-import { CreateGeneralBudgetData, GeneralBudget, UpdateGeneralBudget } from "../../core/entities/Budgets";
+import { CreateGeneralBudgetData, GeneralBudget, UpdateGeneralBudgetData } from "../../core/entities/Budgets";
 import { GeneralBudgetModel } from "../database/models/generalBudgetModel";
 
 export class MongoGeneralBudgetRepository implements GeneralBudgetRepository {
@@ -14,13 +14,13 @@ export class MongoGeneralBudgetRepository implements GeneralBudgetRepository {
         return generalBudget.toJSON();
     }
 
-    async findByIdUser(idUser: string): Promise<GeneralBudget[]> {
-        const generalBudget = await GeneralBudgetModel.find({idUser: idUser});
+    async findByIdUser(idUser: string): Promise<GeneralBudget | null> {
+        const generalBudget = await GeneralBudgetModel.findOne({idUser: idUser});
 
-        return generalBudget.map((budget) => budget.toJSON());
+        return generalBudget ? generalBudget.toJSON() : null;
     }
 
-    async update(id: string, data: UpdateGeneralBudget): Promise<GeneralBudget | null> {
+    async update(id: string, data: UpdateGeneralBudgetData): Promise<GeneralBudget | null> {
         const generalBudget = await GeneralBudgetModel.findByIdAndUpdate(
             id,
             {

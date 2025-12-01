@@ -9,11 +9,11 @@ import { NotFoundError, ValidationError } from '../../../shared/errors';
 import { GeneralBudgetRepository } from '../../repositories/BudgetsRepository';
 import { ExpenseRepository } from '../../repositories/ExpenseRepository';
 import { UserRepository } from '../../repositories/UserRepository';
-import { UpdateGeneralBudgetUseCase } from '../Budgets/UpdateGeneralBudgetUseCase';
+import { UpdateGeneralBudgetUseCase } from '../Budgets/UpdateGeneralBudget';
 
 interface CreateExpenseRequest {
     idUser: string;
-    name: string;
+    description: string;
     value: number;
     category: ExpenseCategory;
 }
@@ -31,7 +31,7 @@ export class CreateExpenseUseCase {
 
     async execute({
         idUser,
-        name,
+        description,
         value,
         category,
     }: CreateExpenseRequest): Promise<CreateExpenseResponse> {
@@ -49,7 +49,7 @@ export class CreateExpenseUseCase {
 
         const expenseData: CreateExpenseData = {
             idUser,
-            name: name.trim(),
+            description: description.trim(),
             value,
             category,
         };

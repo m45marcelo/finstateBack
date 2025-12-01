@@ -5,7 +5,7 @@ import {
 } from '../../../core/entities/Subscription';
 
 export const createSubscriptionSchema = z.object({
-    name: z
+    description: z
         .string()
         .min(1, 'Nome é obrigatório')
         .max(100, 'Nove deve ter no maxímo 100 caracteres ')

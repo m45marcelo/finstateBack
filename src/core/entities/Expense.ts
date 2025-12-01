@@ -14,22 +14,22 @@ export type ExpenseCategory = (typeof EXPENSE_CATEGORIES)[number];
 export interface Expense {
     id: string;
     idUser: string;
-    name: string;
+    description: string;
     value: number;
     category: ExpenseCategory;
     createdAt: Date;
     updatedAt?: Date;
 }
 
-export interface CreateExpenseData {
+export interface CreatedExpenseData {
     idUser: string;
-    name: string;
+    description: string;
     value: number;
     category: ExpenseCategory;
 }
 
-export interface UpdateExpenseData {
-    name?: string;
+export interface UpdatedExpenseData {
+    description?: string;
     value?: number;
     category?: ExpenseCategory;
 }

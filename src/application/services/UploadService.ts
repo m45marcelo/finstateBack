@@ -6,5 +6,5 @@ export interface UploadResult {
 
 export interface UploadService {
     uploadImage(buffer: Buffer, folder: string, publicId?: string): Promise<UploadResult>
-    deletImage(publicId: string): Promise<void>
+    deleteImage(publicId: string): Promise<void>
 }

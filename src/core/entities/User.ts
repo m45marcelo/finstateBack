@@ -3,6 +3,8 @@ export interface User {
     name: string;
     email: string;
     password: string;
+    avatarUrl?: string;
+    avatarPublicId: string;
     createdAt: Date;
     updatedAt?: Date;
 }
@@ -13,8 +15,10 @@ export interface CreatedUserData {
     password: string;
 }
 
-export interface UpdateUserData {
+export interface UpdatedUserData {
     name?: string;
     email?: string;
+    avatarUrl?: string;
+    avatarPublicId?: string;
     password?: string;
 }

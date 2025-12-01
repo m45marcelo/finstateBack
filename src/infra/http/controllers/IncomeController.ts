@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { createIncomeSchema, getAllIncomesSchema } from "../validators/incomeValidation";
+import { createIncomeSchema, getAllIncomesSchema } from "../validators/incomeValidationSchema";
 import { MongoUserRepository } from "../../repositories/MongoUserRepository";
 import { MongoIncomeRepository } from "../../repositories/MongoIncomeRepository";
 import { CreateIncomeUseCase } from "../../../application/use-cases/Income/CreateIncome";
@@ -8,7 +8,7 @@ import { GetAllIncomesUseCase } from "../../../application/use-cases/Income/GetA
 
 export class IncomeController {
     async createIncome(request: Request, response: Response): Promise<Response> {
-        const { name, value, category } = createIncomeSchema.parse(request.body);
+        const { description, value, category } = createIncomeSchema.parse(request.body);
         const idUser = request.user.id;
 
         const userRepository = new MongoUserRepository();
@@ -18,7 +18,7 @@ export class IncomeController {
 
         const result = await createIncomeUseCase.execute({
             idUser,
-            name,
+            description,
             value,
             category: category as IncomeCategory
         });

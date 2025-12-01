@@ -1,10 +1,10 @@
 import { FindIncomesfilter, IncomeRepository } from "../../application/repositories/IncomeRepository";
-import { CreateIncomeData, Income, UpdateIncomeData } from "../../core/entities/Income";
+import { CreatedIncomeData, Income, UpdatedIncomeData } from "../../core/entities/Income";
 import { NotFoundError } from "../../shared/errors";
 import { IncomeSchema } from "../database/models/IncomeModel";
 
 export class MongoIncomeRepository implements IncomeRepository {
-    async create(data: CreateIncomeData): Promise<Income> {
+    async create(data: CreatedIncomeData): Promise<Income> {
         const income = await IncomeSchema.create({
             ...data,
             createdAt: new Date()
@@ -43,7 +43,7 @@ export class MongoIncomeRepository implements IncomeRepository {
         return incomes.map(income => income.toJSON());
     }
 
-    async update(id: string, data: UpdateIncomeData): Promise<Income | null> {
+    async update(id: string, data: UpdatedIncomeData): Promise<Income | null> {
         const income = await IncomeSchema.findByIdAndUpdate(
             id,
             {

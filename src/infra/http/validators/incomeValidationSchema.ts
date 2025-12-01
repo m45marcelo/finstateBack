@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { INCOME_CATEGORIES } from '../../../core/entities/Income';
 export const createIncomeSchema = z.object({
-    name: z
+    description: z
         .string()
         .min(1, 'Nome é obrigatório')
         .max(100, 'Nome deve ter no maximo 100 caracters')

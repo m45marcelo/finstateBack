@@ -16,25 +16,28 @@ export const SUBSCRIPTION_FREQUENCIES = [
     'Outra',
 ] as const;
 
+export const SUBSCRIPTION_STATUS = ["Pago", "Pendente"] as const;
+
 export type SubscriptionCategories = (typeof SUBSCRIPTION_CATEGORIES)[number];
 export type SubscriptionFrequencies = (typeof SUBSCRIPTION_CATEGORIES)[number];
+export type SubscriptionStatus = (typeof SUBSCRIPTION_STATUS)[number];
 
 export interface Subscription {
     id: string;
     idUser: string;
-    name: string;
+    description: string;
     value: number;
     frequency: SubscriptionFrequencies;
     category: SubscriptionCategories;
     nextPay: Date;
-    active: boolean;
+    status: SubscriptionStatus;
     createdAt: Date;
     updatedAt: Date;
 }
 
-export interface CreateSubscriptionData {
+export interface CreatedSubscriptionData {
     idUser: string;
-    name: string;
+    description: string;
     value: number;
     frequency: SubscriptionFrequencies;
     category: SubscriptionCategories;
@@ -42,10 +45,10 @@ export interface CreateSubscriptionData {
 }
 
 export interface UpdatedSubscriptionData {
-    name?: string;
+    description?: string;
     value?: number;
     frequency?: SubscriptionFrequencies;
     category?: SubscriptionCategories;
     nextPay?: Date;
-    active?: boolean;
+    status?: SubscriptionStatus;
 }

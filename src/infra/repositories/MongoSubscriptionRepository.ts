@@ -1,13 +1,13 @@
 import { FindSubscriptionFilter, SubscriptionRepository } from '../../application/repositories/SubscriptionRepository';
 import {
-    CreateSubscriptionData,
+    CreatedSubscriptionData,
     Subscription,
     UpdatedSubscriptionData,
 } from '../../core/entities/Subscription';
 import { subscriptionModel } from '../database/models/subscriptionModel';
 
 export class MongoSubscriptionRepository implements SubscriptionRepository {
-    async create(data: CreateSubscriptionData): Promise<Subscription> {
+    async create(data: CreatedSubscriptionData): Promise<Subscription> {
         const subscription = await subscriptionModel.create({
             ...data,
             createdAt: new Date(),

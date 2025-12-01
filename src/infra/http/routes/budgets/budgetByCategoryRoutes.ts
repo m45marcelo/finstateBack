@@ -15,4 +15,8 @@ budgetByCategoryRoutes.get('/budget-by-category', (req, res, next) => {
     budgetByCategoryController.getBudgetByCategory(req, res).catch(next);
 })
 
+budgetByCategoryRoutes.put('/budget-by-category/:id', (req, res, next) => {
+    budgetByCategoryController.updateBudgetByCategory(req, res).catch(next);
+})
+
 export { budgetByCategoryRoutes };

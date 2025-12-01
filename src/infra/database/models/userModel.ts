@@ -26,6 +26,14 @@ const userSchema = new Schema<User>(
             required: true,
             minlength: 6,
         },
+        avatarUrl: {
+            type: String,
+            default: null
+        },
+        avatarPublicId: {
+            type: String,
+            default: null
+        }
     },
     {
         timestamps: true,

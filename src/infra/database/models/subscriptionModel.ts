@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { Subscription, SUBSCRIPTION_CATEGORIES, SUBSCRIPTION_FREQUENCIES } from "../../../core/entities/Subscription";
+import { Subscription, SUBSCRIPTION_CATEGORIES, SUBSCRIPTION_FREQUENCIES, SUBSCRIPTION_STATUS } from "../../../core/entities/Subscription";
 
 const SubscriptionSchema = new Schema<Subscription>(
     {
@@ -8,7 +8,7 @@ const SubscriptionSchema = new Schema<Subscription>(
             required: true,
             ref: 'User'
         },
-        name: {
+        description: {
             type: String,
             required: true,
             minlength: 1,
@@ -34,9 +34,9 @@ const SubscriptionSchema = new Schema<Subscription>(
             type: Date,
             required: true
         },
-        active: {
-            type: Boolean,
-            default: true
+        status: {
+            type: String,
+            enum: SUBSCRIPTION_STATUS
         }
     },
     {
