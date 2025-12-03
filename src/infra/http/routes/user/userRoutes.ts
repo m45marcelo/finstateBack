@@ -18,6 +18,11 @@ userRoutes.post('/login', (req, res, next) => {
     userController.authenticateUser(req, res).catch(next);
 });
 
+userRoutes.get("/me", authMiddleware, (req, res, next) => {
+    userController.me(req, res).catch(next)
+});
+
+
 userRoutes.get('/users', authMiddleware, (req, res, next) => {
     userController.getAllUsers(res).catch(next);
 });
