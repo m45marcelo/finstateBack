@@ -1,4 +1,4 @@
-import { CreateExpenseData, Expense, UpdateExpenseData } from "../../core/entities/Expense";
+import { CreatedExpenseData, Expense, UpdatedExpenseData } from "../../core/entities/Expense";
 
 export interface FindExpensesfilter {
     idUser: string;
@@ -8,10 +8,10 @@ export interface FindExpensesfilter {
 }
 
 export interface ExpenseRepository {
-    create(data: CreateExpenseData): Promise<Expense>;
+    create(data: CreatedExpenseData): Promise<Expense>;
     findById(id: string): Promise<Expense | null>;
     findMany(filter: FindExpensesfilter): Promise<Expense[]>;
-    update(id: string, data: UpdateExpenseData): Promise<Expense | null>;
+    update(id: string, data: UpdatedExpenseData): Promise<Expense | null>;
     delete(id: string): Promise<void>;
     getTotalByUser(idUser: string): Promise<number>;
 }
