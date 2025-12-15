@@ -1,6 +1,7 @@
 import { CreatedIncomeData, Income, UpdatedIncomeData } from "../../core/entities/Income";
+import { PaginatedResponse, PaginationParams } from "../../shared/types/pagination";
 
-export interface FindIncomesfilter {
+export interface FindIncomesFilter {
     idUser: string;
     category?: string;
     startDate?: Date;
@@ -10,7 +11,8 @@ export interface FindIncomesfilter {
 export interface IncomeRepository {
     create(data: CreatedIncomeData): Promise<Income>;
     findById(id: string): Promise<Income | null>;
-    findMany(filter: FindIncomesfilter): Promise<Income[]>;
+    findMany(filter: FindIncomesFilter): Promise<Income[]>;
+    findManyPaginated(filter: FindIncomesFilter, pagination: PaginationParams): Promise<PaginatedResponse<Income>>
     update(id: string, data: UpdatedIncomeData): Promise<Income | null>;
     delete(id: string): Promise<void>;
     getTotalByUser(idUser: string): Promise<number>;
