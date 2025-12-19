@@ -1,14 +1,15 @@
 import { Request, Response } from 'express';
-import { createSubscriptionSchema, getAllSubscriptionsSchema } from '../validators/subscriptionValidationSchema';
+import { createSubscriptionSchema, getAllSubscriptionsSchema, updateSubscriptionSchema } from '../validators/subscriptionValidationSchema';
 import { MongoSubscriptionRepository } from '../../repositories/MongoSubscriptionRepository';
 import { MongoUserRepository } from '../../repositories/MongoUserRepository';
 import { CreateSubscriptionUseCase } from '../../../application/use-cases/Subscription/CreateSubscription';
-import { SubscriptionCategories } from '../../../core/entities/Subscription';
+import { SubscriptionCategories, SubscriptionFrequencies, SubscriptionStatus } from '../../../core/entities/Subscription';
 import { GetAllSubscriptionUseCase } from '../../../application/use-cases/Subscription/GetAllSubscriptions';
+import { UpdateSubscriptionUseCase } from '../../../application/use-cases/Subscription/UpdateSubscription';
 
 export class SubscriptionController {
     async createSubscription(request: Request, response: Response): Promise<Response> {
-        const { description, value, frequency, category, nextPay } =
+        const { description, value, frequency, category, startDate, nextPay } =
             createSubscriptionSchema.parse(request.body);
 
         const idUser = request.user.id;
@@ -27,10 +28,31 @@ export class SubscriptionController {
             value,
             frequency: frequency as SubscriptionCategories,
             category: category as SubscriptionCategories,
+            startDate,
             nextPay,
         });
 
         return response.status(200).json(result);
+    }
+
+    async updateSubscription(request: Request, response: Response): Promise<Response>{
+        const { id, description, value, status,frequency, category, startDate, nextPay } = updateSubscriptionSchema.parse(request.body);
+
+        const subscriptionRepository = new MongoSubscriptionRepository();
+        const updateSubscriptionUseCase = new UpdateSubscriptionUseCase(subscriptionRepository);
+
+        const result = await updateSubscriptionUseCase.execute({
+            id,
+            description,
+            value,
+            frequency: frequency as SubscriptionFrequencies,
+            category: category as SubscriptionCategories,
+            status: status as SubscriptionStatus,
+            startDate,
+            nextPay
+        })
+
+        return response.json(result);
     }
 
     async getAllSubscriptions(request: Request, response: Response): Promise<Response>{
