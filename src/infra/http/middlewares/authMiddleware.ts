@@ -24,26 +24,28 @@ export function authMiddleware(
     response: Response,
     next: NextFunction
 ): void {
-    const authHeader = request.headers.authorization
-    if(!authHeader) {
-        throw new UnauthorizedError('Token de acesso é obrigatório');
-    }
+    const tokenFromCookie = request.cookies?.token;
 
-    const [, token] = authHeader.split(' ');
+    const authHeader = request.headers.authorization;
+    const tokenFromHeader = authHeader?.startsWith("Bearer ")
+        ? authHeader.split(" ")[1]
+        : undefined;
 
-    if(!token) {
-        throw new UnauthorizedError('Token de acesso é obrigatorio');
+    const token = tokenFromCookie || tokenFromHeader;
+
+    if (!token) {
+        throw new UnauthorizedError("Token de acesso é obrigatório");
     }
 
     try {
         const decoded = verify(token, env.JWT_SECRET) as TokenPayload;
 
         request.user = {
-            id: decoded.sub
-        }
+            id: decoded.sub,
+        };
 
         next();
     } catch {
-        throw new UnauthorizedError('Token de acesso inválido');
+        throw new UnauthorizedError("Token de acesso inválido");
     }
 }
