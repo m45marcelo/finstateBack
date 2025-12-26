@@ -1,11 +1,11 @@
 export const SUBSCRIPTION_CATEGORIES = [
-    'Entretenimento',
+    'Supermercado',
     'Moradia',
-    'Música',
-    'Tecnologia',
-    'Educação',
+    'Entretenimento',
     'Transporte',
+    'Educação',
     'Saúde',
+    'Vestuário',
     'Outros',
 ] as const;
 
@@ -29,6 +29,7 @@ export interface Subscription {
     value: number;
     frequency: SubscriptionFrequencies;
     category: SubscriptionCategories;
+    startDate: Date;
     nextPay: Date;
     status: SubscriptionStatus;
     createdAt: Date;
@@ -41,14 +42,17 @@ export interface CreatedSubscriptionData {
     value: number;
     frequency: SubscriptionFrequencies;
     category: SubscriptionCategories;
-    nextPay: Date
+    startDate: Date;
+    nextPay: Date;
+    status: SubscriptionStatus;
 }
 
-export interface UpdatedSubscriptionData {
+export interface  UpdatedSubscriptionData {
     description?: string;
     value?: number;
     frequency?: SubscriptionFrequencies;
     category?: SubscriptionCategories;
+    startDate?: Date;
     nextPay?: Date;
     status?: SubscriptionStatus;
 }
