@@ -1,7 +1,7 @@
 import {
     BudgetStatus,
     GeneralBudget,
-    UpdateGeneralBudgetData,
+    UpdatedGeneralBudgetData,
 } from '../../../core/entities/Budgets';
 import { NotFoundError } from '../../../shared/errors';
 import { GeneralBudgetRepository } from '../../repositories/BudgetsRepository';
@@ -36,7 +36,7 @@ export class UpdateGeneralBudgetUseCase {
 
         const id = generalBudget.id;
 
-        const generalBudgetdata: UpdateGeneralBudgetData = {
+        const generalBudgetdata: UpdatedGeneralBudgetData = {
             limit,
             spent,
             remaining,
