@@ -1,6 +1,6 @@
-import { FindIncomesfilter, IncomeRepository } from "../../application/repositories/IncomeRepository";
+import { FindIncomesFilter, IncomeRepository } from "../../application/repositories/IncomeRepository";
 import { CreatedIncomeData, Income, UpdatedIncomeData } from "../../core/entities/Income";
-import { NotFoundError } from "../../shared/errors";
+import { PaginatedResponse, PaginationParams } from "../../shared/types/pagination";
 import { IncomeSchema } from "../database/models/IncomeModel";
 
 export class MongoIncomeRepository implements IncomeRepository {
@@ -19,29 +19,54 @@ export class MongoIncomeRepository implements IncomeRepository {
         return income ? income?.toJSON() : null;
     }
 
-    async findMany(filter: FindIncomesfilter): Promise<Income[]> {
-        const query: any = { idUser: filter.idUser };
-
-        if(filter.category) {
-            query.category = filter.category;
-        }
-
-        if(filter.startDate || filter.endDate) {
-            query.createdAt = {};
-
-            if(filter.startDate) {
-                query.createdAt.$gte = filter.startDate
-            }
-
-            if(filter.endDate) {
-                query.createdAt.$lte = filter.endDate
-            }
-        }
-
-        const incomes = await IncomeSchema.find(query).sort({ createdAt: -1 });
-
-        return incomes.map(income => income.toJSON());
+    async findMany(filter: FindIncomesFilter): Promise<Income[]> {
+      const query = this.buildQuery(filter)
+    
+      console.log('🔎 MongoIncomeRepository - Query construída:', JSON.stringify(query, null, 2))
+  
+      const incomes = await IncomeSchema
+        .find(query)
+        .sort({ createdAt: -1 })
+      
+      console.log(`✅ MongoIncomeRepository - ${incomes.length} receitas encontradas`)
+      
+      return incomes.map(income => income.toJSON())
     }
+
+    async findManyPaginated(
+        filter: FindIncomesFilter, 
+        pagination: PaginationParams
+      ): Promise<PaginatedResponse<Income>> {
+        const query = this.buildQuery(filter)
+    
+        // Calcular skip (quantos registros pular)
+        const skip = (pagination.page - 1) * pagination.limit
+    
+        // Buscar dados paginados e contar total
+        const [incomes, totalItems] = await Promise.all([
+          IncomeSchema
+            .find(query)
+            .sort({ createdAt: -1 })
+            .skip(skip)
+            .limit(pagination.limit),
+          IncomeSchema.countDocuments(query)
+        ])
+    
+        // Calcular metadados da paginação
+        const totalPages = Math.ceil(totalItems / pagination.limit)
+    
+        return {
+          data: incomes.map(income => income.toJSON()),
+          meta: {
+            currentPage: pagination.page,
+            itemsPerPage: pagination.limit,
+            totalItems,
+            totalPages,
+            hasNextPage: pagination.page < totalPages,
+            hasPreviousPage: pagination.page > 1
+          }
+        }
+      }
 
     async update(id: string, data: UpdatedIncomeData): Promise<Income | null> {
         const income = await IncomeSchema.findByIdAndUpdate(
@@ -68,4 +93,30 @@ export class MongoIncomeRepository implements IncomeRepository {
 
         return result.length > 0 ? result[0].total : 0;
     }
+
+    private buildQuery(filter: FindIncomesFilter): any {
+        const query: any = { idUser: filter.idUser }
+
+        if(filter.description){
+          query.description = { $regex: filter.description, $options: 'i' }
+        }
+    
+        if (filter.category) {
+          query.category = filter.category
+        }
+    
+        if (filter.startDate || filter.endDate) {
+          query.createdAt = {}
+          
+          if (filter.startDate) {
+            query.createdAt.$gte = filter.startDate
+          }
+          
+          if (filter.endDate) {
+            query.createdAt.$lte = filter.endDate
+          }
+        }
+    
+        return query
+      }
 }
