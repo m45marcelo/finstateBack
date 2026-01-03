@@ -40,27 +40,23 @@ export class ExpenseController {
         return response.status(200).json(result);
     }
 
-    async getAllExpenses(
-        request: Request,
-        response: Response,
-    ): Promise<Response> {
-        const { category, startDate, endDate } = getAllExpensesSchema.parse(
-            request.query,
-        );
-        const idUser = request.user.id;
-
-        const expenseRepository = new MongoExpenseRepository();
-        const getAllExpensesUseCase = new GetAllExpensesUseCase(
-            expenseRepository,
-        );
-
-        const result = await getAllExpensesUseCase.execute({
-            idUser,
-            category,
-            startDate,
-            endDate,
-        });
-
-        return response.json(result);
-    }
+    async getAllExpenses(request: Request, response: Response): Promise<Response> {
+        const { category, description, startDate, endDate, page, limit } = getAllExpensesSchema.parse(request.query)
+        const idUser = request.user.id
+    
+        const expenseRepository = new MongoExpenseRepository()
+        const getExpensesUseCase = new GetAllExpensesUseCase(expenseRepository)
+    
+        const result = await getExpensesUseCase.execute({
+          idUser,
+          description,
+          category,
+          startDate,
+          endDate,
+          page,
+          limit
+        })
+    
+        return response.json(result)
+      }
 }
