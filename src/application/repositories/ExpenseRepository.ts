@@ -3,6 +3,7 @@ import { PaginatedResponse, PaginationParams } from '../../shared/types/paginati
 
 export interface FindExpensesFilter {
   idUser: string
+  description?: string;
   category?: string
   startDate?: Date
   endDate?: Date
