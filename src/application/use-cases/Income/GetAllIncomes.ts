@@ -6,6 +6,7 @@ import {
 
 interface GetAllIncomesRequest {
     idUser: string
+    description?: string;
     category?: IncomeCategory
     startDate?: Date
     endDate?: Date
@@ -31,6 +32,7 @@ export class GetAllIncomesUseCase {
 
     async execute({
         idUser,
+        description,
         category,
         startDate,
         endDate,
@@ -45,6 +47,7 @@ export class GetAllIncomesUseCase {
         }
         const filter: FindIncomesFilter = {
             idUser,
+            description,
             category,
             startDate: startDate ? new Date(startDate) : undefined,
             endDate: fullEndDate,
