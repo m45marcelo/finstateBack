@@ -1,10 +1,10 @@
 import { BudgetStatus } from '../../../core/entities/Budgets';
 import {
-    CreateExpenseData,
+    CreatedExpenseData,
     Expense,
     ExpenseCategory,
 } from '../../../core/entities/Expense';
-import { MongoGeneralBudgetRepository } from '../../../infra/repositories/MongoGeneralBudgetRepository';
+
 import { NotFoundError, ValidationError } from '../../../shared/errors';
 import { GeneralBudgetRepository } from '../../repositories/BudgetsRepository';
 import { ExpenseRepository } from '../../repositories/ExpenseRepository';
@@ -47,7 +47,7 @@ export class CreateExpenseUseCase {
             throw new ValidationError('O valor deve ser maior que zero');
         }
 
-        const expenseData: CreateExpenseData = {
+        const expenseData: CreatedExpenseData = {
             idUser,
             description: description.trim(),
             value,
