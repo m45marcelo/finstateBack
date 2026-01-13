@@ -1,5 +1,5 @@
 import {
-    CreateSubscriptionData,
+    CreatedSubscriptionData,
     Subscription,
     SubscriptionCategories,
     SubscriptionFrequencies,
@@ -14,10 +14,11 @@ interface CreateSubscriptionRequest {
     value: number;
     frequency: SubscriptionFrequencies;
     category: SubscriptionCategories;
+    startDate: Date;
     nextPay: Date;
 }
 
-interface CreateSubscriptionResponse {
+interface CreatedSubscriptionResponse {
     subscription: Subscription
 }
 
@@ -27,7 +28,7 @@ export class CreateSubscriptionUseCase {
         private userRepository: UserRepository
     ) {}
 
-    async execute({idUser, description, value, frequency, category, nextPay}: CreateSubscriptionRequest): Promise<CreateSubscriptionResponse> {
+    async execute({idUser, description, value, frequency, category, startDate, nextPay}: CreateSubscriptionRequest): Promise<CreatedSubscriptionResponse> {
         const user = await this.userRepository.findById(idUser);
 
         if(!user) {
@@ -38,13 +39,15 @@ export class CreateSubscriptionUseCase {
             throw new ValidationError('O valor tem que ser maior que zero');
         }
 
-        const subscriptionData: CreateSubscriptionData = {
+        const subscriptionData: CreatedSubscriptionData = {
             idUser,
             description: description.trim(),
             value,
             frequency,
             category,
-            nextPay
+            startDate,
+            nextPay,
+            status: "Pendente"
         }
 
         const subscription = await this.subscriptionRepository.create(subscriptionData);
