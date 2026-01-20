@@ -36,6 +36,12 @@ export class MongoSubscriptionRepository implements SubscriptionRepository {
         return subscriptions.map((subscription) => subscription.toJSON());
     }
 
+    async findById(id: string): Promise<Subscription | null> {
+        const subscription = await subscriptionModel.findById(id);
+
+        return subscription ? subscription.toJSON() : null;
+    }
+
     async update(id: string, data: UpdatedSubscriptionData): Promise<Subscription | null> {
         const subscription = await subscriptionModel.findByIdAndUpdate(
             id,
