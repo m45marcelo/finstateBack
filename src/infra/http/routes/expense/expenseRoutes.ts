@@ -15,4 +15,8 @@ expenseRoutes.get('/expenses', (req, res, next) => {
     expenseController.getAllExpenses(req, res).catch(next);
 });
 
+expenseRoutes.delete("/expense", (req, res, next) => {
+    expenseController.deleteExpense(req, res).catch(next);
+})
+
 export { expenseRoutes };
