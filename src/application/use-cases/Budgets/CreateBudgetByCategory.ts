@@ -1,4 +1,4 @@
-import { BudgetByCategory, BudgetCategories, CreateBudgetByCategoryData } from "../../../core/entities/Budgets";
+import { BudgetByCategory, BudgetCategories, CreatedBudgetByCategoryData } from "../../../core/entities/Budgets";
 import { MongoBudgetByCategoryRepository } from "../../../infra/repositories/MongoBudgetByCategoryRepository";
 import { MongoUserRepository } from "../../../infra/repositories/MongoUserRepository";
 import { ConflictError, NotFoundError, ValidationError } from "../../../shared/errors";
@@ -41,7 +41,7 @@ export class CreateBudgetByCategoryUseCase {
             throw new ValidationError('O limite tem que ser maior que zero');
         }
 
-        const budgetByCategoryData: CreateBudgetByCategoryData = {
+        const budgetByCategoryData: CreatedBudgetByCategoryData = {
             idUser,
             category, 
             limit,
