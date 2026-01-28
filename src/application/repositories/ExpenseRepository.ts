@@ -1,5 +1,6 @@
 import { Expense, CreatedExpenseData, UpdatedExpenseData } from '../../core/entities/Expense'
 import { PaginatedResponse, PaginationParams } from '../../shared/types/pagination'
+import { DeleteExpenseResponse } from '../use-cases/Expense/DeleteExpense';
 
 export interface FindExpensesFilter {
   idUser: string
@@ -15,6 +16,6 @@ export interface ExpenseRepository {
   findMany(filter: FindExpensesFilter): Promise<Expense[]>
   findManyPaginated(filter: FindExpensesFilter, pagination: PaginationParams): Promise<PaginatedResponse<Expense>>
   update(id: string, data: UpdatedExpenseData): Promise<Expense | null>
-  delete(id: string): Promise<void>
+  delete(id: string): Promise<Expense | null>
   getTotalByUser(idUser: string): Promise<number>
 }
