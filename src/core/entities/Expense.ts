@@ -3,7 +3,7 @@ export const EXPENSE_CATEGORIES = [
     'Moradia',
     'Entretenimento',
     'Transporte',
-    'Lazer',
+    'Educação',
     'Saúde',
     'Vestuário',
     'Outros',
