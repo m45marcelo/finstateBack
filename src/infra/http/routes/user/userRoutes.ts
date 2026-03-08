@@ -22,10 +22,15 @@ userRoutes.get("/me", authMiddleware, (req, res, next) => {
     userController.me(req, res).catch(next)
 });
 
+userRoutes.post("/logout", userController.logoutUser);
 
 userRoutes.get('/users', authMiddleware, (req, res, next) => {
     userController.getAllUsers(res).catch(next);
 });
+
+userRoutes.patch('/me', authMiddleware, (req, res, next) => {
+    userController.updateUser(req, res).catch(next)
+})
 
 userRoutes.patch(
     '/profile/avatar',
