@@ -5,6 +5,8 @@ import { incomeRoutes } from './income/incomeRoutes';
 import { subscriptionRoutes } from './subscription/subscriptionRoutes';
 import { generalBudgetRoutes } from './budgets/generalBudgetRoutes';
 import { budgetByCategoryRoutes } from './budgets/budgetByCategoryRoutes';
+import { transactionRoutes } from './transaction/transactionRoutes';
+import { dashboardRoutes } from './dashboard/dashboardRoutes';
 
 const routes = Router();
 
@@ -18,10 +20,12 @@ routes.get('/', (req, res) => {
 });
 
 routes.use(userRoutes);
+routes.use(transactionRoutes);
 routes.use(expenseRoutes);
 routes.use(incomeRoutes);
 routes.use(subscriptionRoutes);
 routes.use(generalBudgetRoutes);
-routes.use(budgetByCategoryRoutes)
+routes.use(budgetByCategoryRoutes);
+routes.use(dashboardRoutes);
 
 export { routes };

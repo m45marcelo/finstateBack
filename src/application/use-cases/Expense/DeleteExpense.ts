@@ -1,9 +1,15 @@
+import { response } from "express";
 import { ConflictError, UnauthorizedError } from "../../../shared/errors";
 import { ExpenseRepository } from "../../repositories/ExpenseRepository";
+import { SubscriptionRepository } from "../../repositories/SubscriptionRepository";
 
 interface DeleteExpenseRequest {
     idUser: string;
     id: string;
+}
+
+export interface DeleteExpenseResponse {
+    message: string;
 }
 
 export class DeleteExpenseUseCase {
@@ -12,7 +18,7 @@ export class DeleteExpenseUseCase {
     async execute({
         idUser,
         id
-    }: DeleteExpenseRequest): Promise<void>{
+    }: DeleteExpenseRequest): Promise<DeleteExpenseResponse>{
         const existingExpense = await this.expenseRepository.findById(id);
 
         if(existingExpense?.idUser !== idUser){
@@ -23,5 +29,7 @@ export class DeleteExpenseUseCase {
         }
 
         await this.expenseRepository.delete(id);
+
+        return { message: "Transação deletada com sucesso" }
     }
 }

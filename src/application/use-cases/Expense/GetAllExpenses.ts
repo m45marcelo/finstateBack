@@ -3,6 +3,7 @@ import { ExpenseRepository, FindExpensesFilter } from "../../repositories/Expens
 
 interface GetAllExpensesRequest {
     idUser: string
+    description?: string;
     category?: ExpenseCategory
     startDate?: Date
     endDate?: Date
@@ -25,7 +26,7 @@ interface GetAllExpensesResponse {
 export class GetAllExpensesUseCase {
     constructor(private expenseRepository: ExpenseRepository) {}
 
-    async execute({ idUser, category, startDate, endDate, page = 1, limit = 10 }: GetAllExpensesRequest): Promise<GetAllExpensesResponse> {
+    async execute({ idUser, description, category, startDate, endDate, page = 1, limit = 10 }: GetAllExpensesRequest): Promise<GetAllExpensesResponse> {
         let fullEndDate: Date | undefined;
 
         if(endDate){
@@ -34,6 +35,7 @@ export class GetAllExpensesUseCase {
         }
         const filter: FindExpensesFilter = {
             idUser,
+            description,
             category,
             startDate: startDate? new Date(startDate) : undefined,
             endDate: fullEndDate

@@ -76,7 +76,7 @@ export class GetTransactionsUseCase {
 		);
 
 		const totalExpenses = allTransactions
-			.filter((t) => t.type === "expense")
+			.filter((t) => t.type === "expense" || t.type === "subscription")
 			.reduce((sum, t) => sum + t.value, 0);
 
 		const totalIncomes = allTransactions

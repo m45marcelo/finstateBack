@@ -1,20 +1,24 @@
 {
     "name": "finstateback",
     "version": "1.0.0",
-    "main": "src/server.ts",
+    "main": "dist/server.js",
     "scripts": {
+        "build": "tsc",
+        "start": "node dist/server.js",
         "start:dev": "nodemon src/server.ts",
-        "test": "echo \"Error: no test specified\" && exit 1",
         "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-        "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --max-warnings 0",
-        "lint:fix": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
-        "format": "prettier --write \"src/**/*.ts\""
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "engines": {
+        "node": ">=18.0.0",
+        "npm": ">=9.0.0"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
-    "description": "",
+    "description": "Finance Manager API",
     "devDependencies": {
+        "@biomejs/biome": "2.3.11",
         "@types/bcryptjs": "^2.4.6",
         "@types/cors": "^2.8.19",
         "@types/express": "^5.0.3",
@@ -22,20 +26,16 @@
         "@types/multer": "^2.0.0",
         "@types/node": "^24.0.15",
         "@types/streamifier": "^0.1.2",
-        "@typescript-eslint/eslint-plugin": "^8.38.0",
-        "@typescript-eslint/parser": "^8.38.0",
-        "eslint": "^9.31.0",
-        "eslint-config-prettier": "^10.1.8",
-        "prettier": "^3.6.2",
         "ts-node": "^10.9.2",
         "ts-node-dev": "^2.0.0",
-        "typescript": "^5.8.3",
-        "typescript-eslint": "^8.38.0"
+        "typescript": "^5.8.3"
     },
     "dependencies": {
+        "@types/cookie-parser": "^1.4.10",
         "@upstash/redis": "^1.35.3",
         "bcryptjs": "^3.0.2",
         "cloudinary": "^2.7.0",
+        "cookie-parser": "^1.4.7",
         "cors": "^2.8.5",
         "dotenv": "^17.2.0",
         "express": "^5.1.0",

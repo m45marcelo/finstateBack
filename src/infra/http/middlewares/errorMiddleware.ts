@@ -22,17 +22,19 @@ export function errorMiddleware(
         })
     }
 
+    let validationErrors: any[] = [];
+
     if(error instanceof ZodError) {
-        var validationErrors = error.issues.map(err => ({
+        validationErrors = error.issues.map(err => ({
             field: err.path.join('.'),
             message: err.message
-        }))
+        }));
 
         return response.status(400).json({
             message: 'Dados inválidos',
             statusCode: 400,
             details: validationErrors
-        })
+        });
     }
 
     if(error.name === 'MongoServerError' && (error as any).code === 11000) {

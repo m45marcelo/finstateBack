@@ -30,6 +30,10 @@ const SubscriptionSchema = new Schema<Subscription>(
             required: true,
             enum: SUBSCRIPTION_CATEGORIES
         },
+        startDate: {
+            type: Date,
+            required: true
+        },
         nextPay: {
             type: Date,
             required: true

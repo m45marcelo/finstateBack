@@ -3,6 +3,7 @@ import { GetCategorySummaryUseCase } from '../../../application/use-cases/Transa
 import { MongoExpenseRepository } from '../../../infra/repositories/MongoExpenseRepository'
 import { MongoIncomeRepository } from '../../../infra/repositories/MongoIncomeRepository'
 import { z } from 'zod'
+import { MongoSubscriptionRepository } from '../../repositories/MongoSubscriptionRepository'
 
 const getSummarySchema = z.object({
   startDate: z.string().datetime().optional(),
@@ -16,9 +17,11 @@ export class DashboardController {
     const idUser = request.user.id
 
     const expenseRepository = new MongoExpenseRepository()
+    const subscriptionRepository = new MongoSubscriptionRepository()
     const incomeRepository = new MongoIncomeRepository()
     const getCategorySummaryUseCase = new GetCategorySummaryUseCase(
       expenseRepository,
+      subscriptionRepository,
       incomeRepository
     )
 

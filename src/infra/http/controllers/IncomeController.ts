@@ -24,23 +24,25 @@ export class IncomeController {
         });
 
         return response.status(200).json(result);
-
     }
 
-    async getAllIncomes(request: Request, response: Response) : Promise<Response> {
-        const { category, startDate, endDate } = getAllIncomesSchema.parse(request.query);
-        const idUser = request.user.id;
-
+    async getAllIncomes(request: Request, response: Response): Promise<Response> {
+        const { description, category, startDate, endDate, page, limit } = getAllIncomesSchema.parse(request.query)
+        const idUser = request.user.id
+    
         const incomeRepository = new MongoIncomeRepository()
-        const getAllIncomesUseCase = new GetAllIncomesUseCase(incomeRepository);
-
-        const result = await getAllIncomesUseCase.execute({
+        const getIncomesUseCase = new GetAllIncomesUseCase(incomeRepository)
+    
+        const result = await getIncomesUseCase.execute({
             idUser,
+            description,
             category,
             startDate,
-            endDate
+            endDate,
+            page,
+            limit
         })
-
+    
         return response.json(result)
     }
 }

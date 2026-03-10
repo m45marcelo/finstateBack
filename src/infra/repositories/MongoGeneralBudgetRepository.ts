@@ -1,9 +1,9 @@
 import { GeneralBudgetRepository } from "../../application/repositories/BudgetsRepository";
-import { CreateGeneralBudgetData, GeneralBudget, UpdateGeneralBudgetData } from "../../core/entities/Budgets";
+import { CreatedGeneralBudgetData, GeneralBudget, UpdatedGeneralBudgetData } from "../../core/entities/Budgets";
 import { GeneralBudgetModel } from "../database/models/generalBudgetModel";
 
 export class MongoGeneralBudgetRepository implements GeneralBudgetRepository {
-    async create(data: CreateGeneralBudgetData): Promise<GeneralBudget> {
+    async create(data: CreatedGeneralBudgetData): Promise<GeneralBudget> {
         const generalBudget = await GeneralBudgetModel.create(
             {
                 ...data,
@@ -20,7 +20,7 @@ export class MongoGeneralBudgetRepository implements GeneralBudgetRepository {
         return generalBudget ? generalBudget.toJSON() : null;
     }
 
-    async update(id: string, data: UpdateGeneralBudgetData): Promise<GeneralBudget | null> {
+    async update(id: string, data: UpdatedGeneralBudgetData): Promise<GeneralBudget | null> {
         const generalBudget = await GeneralBudgetModel.findByIdAndUpdate(
             id,
             {

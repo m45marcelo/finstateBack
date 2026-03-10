@@ -6,6 +6,7 @@ import {
 
 export interface FindSubscriptionFilter {
     idUser: string;
+    description?: string;
     startDate?: Date;
     endDate?: Date
 }
