@@ -57,7 +57,7 @@ export class GetAllIncomesUseCase {
             page,
             limit
         })
-          // Calcular total das receitas da página atual
+
         const total = result.data.reduce((sum, income) => sum + income.value, 0)
         
         return {

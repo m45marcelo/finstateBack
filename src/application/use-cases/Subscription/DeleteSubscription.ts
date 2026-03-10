@@ -16,7 +16,6 @@ export class DeleteSubscriptionUseCase {
         const existingSubscription = await this.subscriptionRepository.findById(id);
 
         if(existingSubscription?.idUser !== idUser){
-            console.log("idUser=", existingSubscription?.idUser, "idUser=",idUser)
             throw new UnauthorizedError("Ocorreu um erro ao tentar deletar essa transação")
         }
         if(!existingSubscription){

@@ -1,3 +1,4 @@
+import { FindExpensesFilter } from '../../application/repositories/ExpenseRepository';
 import { FindSubscriptionFilter, SubscriptionRepository } from '../../application/repositories/SubscriptionRepository';
 import {
     CreatedSubscriptionData,
@@ -19,6 +20,10 @@ export class MongoSubscriptionRepository implements SubscriptionRepository {
     async findMany(filter: FindSubscriptionFilter): Promise<Subscription[]> {
 
         const query: any = { idUser: filter.idUser };
+
+        if(filter.description){
+            query.description = filter.description;
+        }
 
         if(filter.startDate || filter.endDate) {
             query.createdAt = {};
@@ -60,4 +65,30 @@ export class MongoSubscriptionRepository implements SubscriptionRepository {
     async delete(id: string): Promise<void> {
         await subscriptionModel.findByIdAndDelete(id);
     }
+
+    private buildQuery(filter: FindExpensesFilter): any {
+            const query: any = { idUser: filter.idUser };
+    
+            if (filter.description) {
+                query.description = { $regex: filter.description, $options: "i" };
+            }
+    
+            if (filter.category) {
+                query.category = filter.category;
+            }
+    
+            if (filter.startDate || filter.endDate) {
+                query.createdAt = {};
+    
+                if (filter.startDate) {
+                    query.createdAt.$gte = filter.startDate;
+                }
+    
+                if (filter.endDate) {
+                    query.createdAt.$lte = filter.endDate;
+                }
+            }
+    
+            return query;
+        }
 }

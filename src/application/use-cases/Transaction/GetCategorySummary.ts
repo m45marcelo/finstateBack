@@ -47,14 +47,12 @@ export class GetCategorySummaryUseCase {
         endDate: endDate ? new Date(endDate) : undefined
       }
   
-      // Buscar todas as despesas e receitas do período
       const [expenses, subscriptions, incomes] = await Promise.all([
         this.expenseRepository.findMany(filter),
         this.subscriptionRepository.findMany(filter),
         this.incomeRepository.findMany(filter)
       ])
-  
-      // Agrupar despesas por categoria (incluindo categorias vazias)
+
       const expensesByCategory = this.groupByCategoryComplete(
         expenses, 
         EXPENSE_CATEGORIES as unknown as string[]
@@ -70,9 +68,6 @@ export class GetCategorySummaryUseCase {
       const totalSubscriptions = subscriptions.reduce((sum, exp) => sum + exp.value, 0)
 
       const totalExpensesAndSubscriptions = totalExpenses + totalSubscriptions;
-
-      console.log(expensesByCategory)
-      console.log(subscriptionByCategory)
 
       expensesByCategory[0].total += subscriptionByCategory[0].total
       expensesByCategory[0].count += subscriptionByCategory[0].count
@@ -90,16 +85,13 @@ export class GetCategorySummaryUseCase {
       expensesByCategory[6].count += subscriptionByCategory[6].count
       expensesByCategory[7].total += subscriptionByCategory[7].total
       expensesByCategory[7].count += subscriptionByCategory[7].count
-      
-      console.log(expensesByCategory)
-      // Agrupar receitas por categoria (incluindo categorias vazias)
+
       const incomesByCategory = this.groupByCategoryComplete(
         incomes, 
         INCOME_CATEGORIES as unknown as string[]
       )
       const totalIncomes = incomes.reduce((sum, inc) => sum + inc.value, 0)
   
-      // Calcular percentuais
       const expenseCategoriesWithPercentage = expensesByCategory.map(cat => ({
         ...cat,
         percentage: totalExpensesAndSubscriptions > 0 ? (cat.total / totalExpensesAndSubscriptions) * 100 : 0
@@ -123,23 +115,16 @@ export class GetCategorySummaryUseCase {
       }
     }
   
-    /**
-     * Agrupa por categoria incluindo TODAS as categorias possíveis,
-     * mesmo aquelas com valor 0
-     */
     private groupByCategoryComplete(
       items: Array<{ category: string; value: number }>,
       allCategories: string[]
     ): Omit<CategoryData, 'percentage'>[] {
-      // Criar um mapa com todas as categorias iniciando em 0
       const categoryMap = new Map<string, { total: number; count: number }>()
       
-      // Inicializar todas as categorias com 0
       allCategories.forEach(category => {
         categoryMap.set(category, { total: 0, count: 0 })
       })
   
-      // Preencher com os valores reais
       items.forEach(item => {
         const existing = categoryMap.get(item.category) || { total: 0, count: 0 }
         categoryMap.set(item.category, {

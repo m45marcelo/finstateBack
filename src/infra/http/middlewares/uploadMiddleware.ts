@@ -2,7 +2,6 @@ import multer from 'multer';
 import { Request, Response, NextFunction } from 'express';
 import { ValidationError } from '../../../shared/errors';
 
-
 const storage = multer.memoryStorage();
 
 const fileFilter = (req: Request, file: Express.Multer.File, cb: multer.FileFilterCallback) => {

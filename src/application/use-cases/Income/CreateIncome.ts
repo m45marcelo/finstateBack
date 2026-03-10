@@ -1,4 +1,4 @@
-import { CreateIncomeData, Income, IncomeCategory } from '../../../core/entities/Income';
+import { CreatedIncomeData, Income, IncomeCategory } from '../../../core/entities/Income';
 import { NotFoundError, ValidationError } from '../../../shared/errors';
 import { IncomeRepository } from '../../repositories/IncomeRepository';
 import { UserRepository } from '../../repositories/UserRepository';
@@ -30,7 +30,7 @@ export class CreateIncomeUseCase {
             throw new ValidationError('o Valor deve ser maior que zero');
         }
 
-        const incomeData: CreateIncomeData = {
+        const incomeData: CreatedIncomeData = {
             idUser,
             description: description.trim(),
             value,

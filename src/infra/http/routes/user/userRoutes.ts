@@ -5,7 +5,6 @@ import {
     handleUploaderror,
     uploadAvatar,
 } from '../../middlewares/uploadMiddleware';
-import { avatarUploadRateLimit } from '../../middlewares/rateLimitMiddleware';
 
 const userRoutes = Router();
 const userController = new UserController();
@@ -35,7 +34,6 @@ userRoutes.patch('/me', authMiddleware, (req, res, next) => {
 userRoutes.patch(
     '/profile/avatar',
     authMiddleware,
-    avatarUploadRateLimit,
     uploadAvatar,
     handleUploaderror,
     (req: Request, res: Response, next: NextFunction) => {

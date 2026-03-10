@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import {
     AuthenticateUserSchema,
     createUserSchema,
+    UpdateUserSchema,
 } from '../validators/userValidationSchemas';
 import { MongoUserRepository } from '../../repositories/MongoUserRepository';
 import { CreateUserUseCase } from '../../../application/use-cases/User/CreateUser';
@@ -11,7 +12,7 @@ import { ValidationError } from '../../../shared/errors';
 import { CloudinaryUploadService } from '../../storage/CloudinaryUploadService';
 import { UploadUserAvatarUseCase } from '../../../application/use-cases/User/UploadUserAvatar';
 import { DeleteUserAvatarUseCase } from '../../../application/use-cases/User/DeleteUserAvatar';
-import { env } from '../../../infra/env/index';
+import { UpdateUserUseCase } from '../../../application/use-cases/User/UpdateUser';
 export class UserController {
     async createUser(request: Request, response: Response): Promise<Response> {
         const { name, email, password } = createUserSchema.parse(request.body);
@@ -48,12 +49,51 @@ export class UserController {
 
         response.cookie("token", token, {
             httpOnly: true,
-            secure: env.NODE_ENV === "production",
-            sameSite: "strict",
+            secure: false,        
+            sameSite: "lax",     
+            path: "/",            
             maxAge: 1000 * 60 * 60 * 24 * 7,
-    });
+        });
 
         return response.json({ user });
+    }
+
+    async logoutUser(request: Request, response: Response): Promise<Response> {
+        response.clearCookie("token", {
+            httpOnly: true,
+            secure: false,
+            sameSite: "lax",
+            path: "/",
+        });
+    
+        return response.status(200).json({ message: "Logout realizado com sucesso" });
+    }
+
+    async updateUser(request: Request, response: Response): Promise<Response>{
+        const { id, name, email } = UpdateUserSchema.parse(request.body)
+
+        const userRepository = new MongoUserRepository();
+        const updateUserUseCase = new UpdateUserUseCase(userRepository);
+
+        const result = await updateUserUseCase.execute({
+            id,
+            name,
+            email
+        })
+
+        return response.json(result);
+    }
+
+    async me(request: Request, response: Response): Promise<Response> {
+        const userRepository = new MongoUserRepository();
+        const user = await userRepository.findById(request.user.id);
+    
+        if (!user) {
+            return response.status(404).json({ message: "Usuário não encontrado" });
+        }
+    
+        const { password, ...userWithoutPassword } = user;
+        return response.json({ user: userWithoutPassword });
     }
 
     async getAllUsers(response: Response): Promise<Response> {
@@ -65,21 +105,6 @@ export class UserController {
         return response.status(200).json(result);
     }
 
-    async profile(request: Request, response: Response): Promise<Response> {
-        const userRepository = new MongoUserRepository();
-        const user = await userRepository.findById(request.user.id);
-
-        if (!user) {
-            return response
-                .status(404)
-                .json({ message: 'Usuário não encontrado' });
-        }
-
-        const { password: _, ...userWithoutPassword } = user;
-
-        return response.json({ user: userWithoutPassword });
-    }
-
     async uploadAvatar(
         request: Request,
         response: Response,
@@ -87,6 +112,8 @@ export class UserController {
         if (!request.file) {
             throw new ValidationError('Nenhuma imagem foi enviada');
         }
+
+        console.log("informações image:",request.file)
 
         const userRepository = new MongoUserRepository();
         const uploadService = new CloudinaryUploadService();
@@ -102,6 +129,7 @@ export class UserController {
             size: request.file.size,
         });
 
+        
         return response.json(result);
     }
 

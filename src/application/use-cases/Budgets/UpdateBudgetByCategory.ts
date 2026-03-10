@@ -1,7 +1,7 @@
 import {
     BudgetByCategory,
     BudgetStatus,
-    UpdateBudgetByCategoryData,
+    UpdatedBudgetByCategoryData,
 } from '../../../core/entities/Budgets';
 import { MongoBudgetByCategoryRepository } from '../../../infra/repositories/MongoBudgetByCategoryRepository';
 import { NotFoundError } from '../../../shared/errors';
@@ -38,7 +38,7 @@ export class UpdateBudgetByCategoryUseCase {
             throw new NotFoundError('Orçamento não encontrado');
         }
 
-        const updateBudgetByCategoryData: UpdateBudgetByCategoryData = {
+        const updateBudgetByCategoryData: UpdatedBudgetByCategoryData = {
             limit,
             spent,
             remaining,

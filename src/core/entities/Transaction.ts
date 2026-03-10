@@ -22,7 +22,6 @@ export interface TransactionFilter {
 	endDate?: Date;
 }
 
-// Função helper para converter Expense em Transaction
 export function expenseToTransaction(expense: Expense): Transaction {
 	return {
 		...expense,
@@ -30,7 +29,6 @@ export function expenseToTransaction(expense: Expense): Transaction {
 	};
 }
 
-// Função helper para converter Income em Transaction
 export function incomeToTransaction(income: Income): Transaction {
 	return {
 		...income,

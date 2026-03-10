@@ -1,5 +1,5 @@
 import {
-    CreateGeneralBudgetData,
+    CreatedGeneralBudgetData,
     GeneralBudget,
 } from '../../../core/entities/Budgets';
 import {
@@ -44,7 +44,7 @@ export class CreateGeneralBudgetUseCase {
             throw new ConflictError('O usuário já possui um orçamento geral');
         }
 
-        const generalBudgetData: CreateGeneralBudgetData = {
+        const generalBudgetData: CreatedGeneralBudgetData = {
             idUser,
             limit,
             spent: 0,

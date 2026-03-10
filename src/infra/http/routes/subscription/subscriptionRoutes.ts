@@ -12,6 +12,10 @@ subscriptionRoutes.post('/subscription', (req, res, next) =>
     subscriptionController.createSubscription(req, res).catch(next),
 );
 
+subscriptionRoutes.patch('/subscription', (req, res, next) => 
+    subscriptionController.updateSubscription(req, res).catch(next)
+)
+
 subscriptionRoutes.get('/subscriptions', (req, res, next) => 
     subscriptionController.getAllSubscriptions(req, res).catch(next),
 );
