@@ -2,7 +2,7 @@ import type {
 	ExpenseRepository,
 	FindExpensesFilter,
 } from "../../application/repositories/ExpenseRepository";
-import { DeleteExpenseResponse } from "../../application/use-cases/Expense/DeleteExpense";
+
 import type {
 	CreatedExpenseData,
 	Expense,

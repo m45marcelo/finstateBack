@@ -1,6 +1,7 @@
+import { UserModel } from "../database/models/userModel";
 import { UserRepository } from "../../application/repositories/UserRepository";
-import { CreatedUserData, UpdatedUserData, User } from "../../core/entities/User";
-import { UserModel } from "../database/models/UserModel";
+import type { CreatedUserData, UpdatedUserData, User } from "../../core/entities/User";
+
 
 export class MongoUserRepository implements UserRepository {
     async create(data: CreatedUserData): Promise<User> {
